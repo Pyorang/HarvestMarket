@@ -15,7 +15,7 @@ public class AnimalAnimation : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         TriggerEatingAnimation();
     }

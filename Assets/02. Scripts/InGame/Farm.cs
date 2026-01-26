@@ -1,12 +1,37 @@
-using UnityEngine;
+癤퓎sing UnityEngine;
 
 public class Farm : MonoBehaviour
 {
-    // NOTE: 농장에서 키우는 동물의 종류를 선택하고, 늘리거나 줄일 수 있게 하는 역할.
-
     [SerializeField] private Animal _animalType;
-
     [SerializeField] private GameObject[] _animals;
 
+    public string AnimalType => _animalType.ToString();
+    public GameObject[] Animals => _animals;
 
+    private void Start()
+    {
+        InitializeAnimals();
+    }
+
+    private void InitializeAnimals()
+    {
+        for (int i = 0; i < _animals.Length; i++)
+        {
+            _animals[i].SetActive(i == 0);
+        }
+    }
+
+    public bool TryActivateNextAnimal()
+    {
+        foreach (var animal in _animals)
+        {
+            if (!animal.activeSelf)
+            {
+                animal.SetActive(true);
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
