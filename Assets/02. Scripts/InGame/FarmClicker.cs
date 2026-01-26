@@ -5,11 +5,6 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Farm))]
 public class FarmClicker : MonoBehaviour, IPointerDownHandler
 {
-    private int _currentSoundNumber = 0;
-
-    [Header("사운드 수")]
-    [SerializeField] private int _soundCount = 2;
-
     [Header("Scale Feedback")]
     [SerializeField] private float _targetScale = 1.2f;
     [SerializeField] private float _scaleUpDuration = 0.15f;
@@ -63,12 +58,6 @@ public class FarmClicker : MonoBehaviour, IPointerDownHandler
 
     public void PlaySoundFeedback()
     {
-        /*int targetSoundNumber = ++_currentSoundNumber;
-        _currentSoundNumber %= _soundCount;
-
-        string targetSoundName = $"{_farm.AnimalType}{targetSoundNumber}";
-
-        AudioManager.Instance.Play(AudioType.SFX, targetSoundName);*/
         AudioManager.Instance.Play(AudioType.SFX, ClickSound);
     }
 }
