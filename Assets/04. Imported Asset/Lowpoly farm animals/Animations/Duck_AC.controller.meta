@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4c3c50fa7e3ee3747a8092c7e17c456e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 180305
+  packageName: Lowpoly farm animals
+  packageVersion: 1.0
+  assetPath: Assets/Lowpoly farm animals/Animations/Duck_AC.controller
+  uploadId: 393878

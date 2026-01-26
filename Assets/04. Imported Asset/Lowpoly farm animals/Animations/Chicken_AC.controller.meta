@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bbc82b0e98ac54c4887303f156fd2ff3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 180305
+  packageName: Lowpoly farm animals
+  packageVersion: 1.0
+  assetPath: Assets/Lowpoly farm animals/Animations/Chicken_AC.controller
+  uploadId: 393878
