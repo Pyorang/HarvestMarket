@@ -15,13 +15,28 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 874f6b456dc7a0f4e96f94cc933c6f4b
   m_SerializeEntries:
+  - m_GUID: 3aa7d5fa50409204e90b00203f8c9855
+    m_Address: Food/Egg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 72479fc4b389bfe4c9392e16df0c6a19
     m_Address: Audio/Chicken1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95cc2a6335cea8246b76bb24b6c4476e
+    m_Address: Food/Milk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 96bef840473303e4e81568f65f44b2d0
     m_Address: Audio/Chicken2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aa6d8eb78f512584fb30a98c7d3fb86a
+    m_Address: Food/Meet
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
