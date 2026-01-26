@@ -1,20 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+[RequireComponent(typeof(Farm))]
 public class FarmClicker : MonoBehaviour, IPointerDownHandler
 {
+    private IClickFeedback[] _feedbacks;
+
+    private void Awake()
+    {
+        _feedbacks = GetComponents<IClickFeedback>();
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        Vector3 touchPosition = eventData.position;
+        Ray ray = Camera.main.ScreenPointToRay(eventData.position);
 
-        Ray ray = Camera.main.ScreenPointToRay(touchPosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            // 1. 닭들의 크기 커짐
-            // 2. 닭 소리 재생
-            // 3. 재화 증정
+            foreach (var feedback in _feedbacks)
+            {
+                feedback.Play();
+            }
         }
     }
 }
