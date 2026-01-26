@@ -253,7 +253,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0685
+      value: -0.0851
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -261,7 +261,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.1694
+      value: 0.1807
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalRotation.w
@@ -294,6 +294,10 @@ PrefabInstance:
     - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_Name
       value: Chicken_All (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -419,6 +423,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chicken_All (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -480,6 +488,10 @@ PrefabInstance:
     - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_Name
       value: Chicken_All (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -784,8 +796,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.20987251, y: 0.5094098, z: -0.12972294, w: -0.82439506}
-  m_LocalPosition: {x: 0.34190315, y: 0.1759196, z: -0.06941554}
+  m_LocalRotation: {x: -0.10438792, y: -0.3397506, z: 0.037974074, w: -0.93393296}
+  m_LocalPosition: {x: -0.2761779, y: 0.13619283, z: -0.21313062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1506,7 +1518,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0152
+      value: -0.0127
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1514,7 +1526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.1776
+      value: 0.1647
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1547,6 +1559,10 @@ PrefabInstance:
     - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_Name
       value: Chicken_All (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1782,7 +1798,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0164
+      value: 0.0271
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1790,7 +1806,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0157
+      value: 0.0086
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1823,6 +1839,10 @@ PrefabInstance:
     - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_Name
       value: Chicken_All (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2073,7 +2093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7581b9012c73a6441b3d07f66ed294cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Farm
-  _animalType: 0
+  _resourceType: 0
   _animals:
   - {fileID: 196068993}
   - {fileID: 201116911}
@@ -2324,7 +2344,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.076
+      value: -0.1036
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2332,7 +2352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0055
+      value: 0.0075
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2365,6 +2385,10 @@ PrefabInstance:
     - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_Name
       value: Chicken_All (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2620,7 +2644,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0069
+      value: 0.0109
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2628,7 +2652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.123
+      value: 0.1106
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2662,6 +2686,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chicken_All (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2682,7 +2710,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0631
+      value: -0.0857
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2690,7 +2718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0616
+      value: 0.0824
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2723,6 +2751,10 @@ PrefabInstance:
     - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_Name
       value: Chicken_All (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2878,7 +2910,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0904
+      value: 0.048
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2886,7 +2918,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.087
+      value: 0.0637
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2919,6 +2951,10 @@ PrefabInstance:
     - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_Name
       value: Chicken_All (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7097171457696213730, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2972,6 +3008,10 @@ PrefabInstance:
     - target: {fileID: 1745598093201960718, guid: a4ebde8232f856a4796cc11f521696f6, type: 3}
       propertyPath: m_Name
       value: Currency UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623438618932617416, guid: a4ebde8232f856a4796cc11f521696f6, type: 3}
+      propertyPath: m_text
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8409382235284277305, guid: a4ebde8232f856a4796cc11f521696f6, type: 3}
       propertyPath: m_Pivot.x
@@ -3081,7 +3121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.015971165
+      value: -0.0438
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3089,7 +3129,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.049773417
+      value: 0.0439
       objectReference: {fileID: 0}
     - target: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
       propertyPath: m_LocalRotation.w
