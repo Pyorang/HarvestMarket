@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class RaycastPointerHandler : MonoBehaviour, IPointerDownHandler
+public class FarmClicker : MonoBehaviour, IPointerDownHandler
 {
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -12,11 +12,9 @@ public class RaycastPointerHandler : MonoBehaviour, IPointerDownHandler
 
         if (Physics.Raycast(ray, out hit))
         {
-            Debug.Log("맞은 물체: " + hit.collider.gameObject.name);
-        }
-        else
-        {
-            Debug.Log("공중에 터치함");
+            // 1. 닭들의 크기 커짐
+            // 2. 닭 소리 재생
+            // 3. 재화 증정
         }
     }
 }
