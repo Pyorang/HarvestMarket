@@ -1,63 +1,26 @@
-﻿using DG.Tweening;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Farm))]
 public class FarmClicker : MonoBehaviour, IPointerDownHandler
 {
-    [Header("Scale Feedback")]
-    [SerializeField] private float _targetScale = 1.2f;
-    [SerializeField] private float _scaleUpDuration = 0.15f;
-    [SerializeField] private float _scaleDownDuration = 0.2f;
-
-    private string ClickSound = "Clicker";
-
-    private Farm _farm;
+    private IClickFeedback[] _feedbacks;
 
     private void Awake()
     {
-        _farm = GetComponent<Farm>();
-    }
-
-    public void Start()
-    {
-        
+        _feedbacks = GetComponents<IClickFeedback>();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Vector3 touchPosition = eventData.position;
-
-        Ray ray = Camera.main.ScreenPointToRay(touchPosition);
+        Ray ray = Camera.main.ScreenPointToRay(eventData.position);
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            PlayScaleFeedback();
-            PlaySoundFeedback();
-            // TODO: 재화 획득
-        }
-    }
-
-    public void PlayScaleFeedback()
-    {
-        foreach (var animal in _farm.Animals)
-        {
-            if (animal.activeSelf)
+            foreach (var feedback in _feedbacks)
             {
-                animal.transform.DOKill();
-                animal.transform.localScale = Vector3.one;
-
-                animal.transform
-                    .DOScale(_targetScale, _scaleUpDuration)
-                    .SetEase(Ease.OutBack)
-                    .OnComplete(() =>
-                        animal.transform.DOScale(1f, _scaleDownDuration).SetEase(Ease.OutBack));
+                feedback.Play();
             }
         }
-    }
-
-    public void PlaySoundFeedback()
-    {
-        AudioManager.Instance.Play(AudioType.SFX, ClickSound);
     }
 }

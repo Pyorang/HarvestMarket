@@ -1992,6 +1992,8 @@ GameObject:
   - component: {fileID: 1239383452}
   - component: {fileID: 1239383454}
   - component: {fileID: 1239383453}
+  - component: {fileID: 1239383456}
+  - component: {fileID: 1239383455}
   m_Layer: 3
   m_Name: Farm
   m_TagString: Untagged
@@ -2059,9 +2061,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3130cee424b9748940683e8ad4ac04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FarmClicker
-  _targetScale: 2
-  _scaleUpDuration: 0.15
-  _scaleDownDuration: 0.2
 --- !u!114 &1239383454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2086,6 +2085,34 @@ MonoBehaviour:
   - {fileID: 262014384}
   - {fileID: 926413262}
   - {fileID: 2002997172}
+--- !u!114 &1239383455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239383450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffee7e35ffb266f42b1ce4564767dc2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScaleFeedback
+  _targetScale: 2
+  _scaleUpDuration: 0.15
+  _scaleDownDuration: 0.2
+--- !u!114 &1239383456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239383450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7f817846fdb9f45a9e66ce2b88e4b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundFeedback
+  _soundName: Clicker
 --- !u!1001 &1257606846
 PrefabInstance:
   m_ObjectHideFlags: 0
