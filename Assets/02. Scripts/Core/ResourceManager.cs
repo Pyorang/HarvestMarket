@@ -21,7 +21,7 @@ public class ResourceManager : MonoBehaviour
 
     private Dictionary<ResourceType, int> _resources = new();
 
-    public event Action<ResourceType, int> OnResourceChanged;
+    public static event Action<ResourceType, int> OnResourceChanged;
 
     private void Awake()
     {
@@ -29,12 +29,16 @@ public class ResourceManager : MonoBehaviour
         {
             s_instance = this;
             DontDestroyOnLoad(gameObject);
-            InitializeResources();
         }
         else if (s_instance != this)
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        InitializeResources();
     }
 
     private void InitializeResources()
@@ -50,6 +54,7 @@ public class ResourceManager : MonoBehaviour
 
     public void AddResource(ResourceType type, int amount)
     {
+        if(amount <= 0) return;
         _resources[type] = Mathf.Max(0, _resources[type] + amount);
         OnResourceChanged?.Invoke(type, _resources[type]);
     }

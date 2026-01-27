@@ -1886,6 +1886,7 @@ GameObject:
   - component: {fileID: 385600480}
   - component: {fileID: 385600479}
   - component: {fileID: 385600478}
+  - component: {fileID: 385600481}
   m_Layer: 0
   m_Name: Egg UI
   m_TagString: Untagged
@@ -1966,6 +1967,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 385600476}
   m_CullTransparentMesh: 1
+--- !u!114 &385600481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385600476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7098942aaa2aefc45bfbaf2cb46d7716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScalePop
+  _popScale: 1.2
+  _duration: 0.2
+  _ease: 27
 --- !u!1001 &394843590
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4019,6 +4035,7 @@ GameObject:
   - component: {fileID: 760336449}
   - component: {fileID: 760336448}
   - component: {fileID: 760336451}
+  - component: {fileID: 760336452}
   m_Layer: 5
   m_Name: Previous Button
   m_TagString: Untagged
@@ -4152,6 +4169,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverScale
   _hoverScale: 1.2
+--- !u!114 &760336452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760336446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7098942aaa2aefc45bfbaf2cb46d7716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScalePop
+  _popScale: 1.2
   _duration: 0.2
   _ease: 27
 --- !u!1 &767677961
@@ -4211,6 +4241,7 @@ GameObject:
   - component: {fileID: 771776122}
   - component: {fileID: 771776121}
   - component: {fileID: 771776124}
+  - component: {fileID: 771776125}
   m_Layer: 5
   m_Name: Next Button
   m_TagString: Untagged
@@ -4344,6 +4375,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverScale
   _hoverScale: 1.2
+--- !u!114 &771776125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771776119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7098942aaa2aefc45bfbaf2cb46d7716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScalePop
+  _popScale: 1.2
   _duration: 0.2
   _ease: 27
 --- !u!1001 &792940334
@@ -4756,6 +4800,7 @@ GameObject:
   - component: {fileID: 857428392}
   - component: {fileID: 857428391}
   - component: {fileID: 857428390}
+  - component: {fileID: 857428393}
   m_Layer: 0
   m_Name: Meat UI
   m_TagString: Untagged
@@ -4836,6 +4881,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857428388}
   m_CullTransparentMesh: 1
+--- !u!114 &857428393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857428388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7098942aaa2aefc45bfbaf2cb46d7716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScalePop
+  _popScale: 1.2
+  _duration: 0.2
+  _ease: 27
 --- !u!1 &861917066
 GameObject:
   m_ObjectHideFlags: 0
@@ -7631,6 +7691,7 @@ GameObject:
   - component: {fileID: 1544260373}
   - component: {fileID: 1544260372}
   - component: {fileID: 1544260371}
+  - component: {fileID: 1544260374}
   m_Layer: 0
   m_Name: Milk UI
   m_TagString: Untagged
@@ -7711,6 +7772,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1544260369}
   m_CullTransparentMesh: 1
+--- !u!114 &1544260374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544260369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7098942aaa2aefc45bfbaf2cb46d7716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScalePop
+  _popScale: 1.2
+  _duration: 0.2
+  _ease: 27
 --- !u!1 &1548843914
 GameObject:
   m_ObjectHideFlags: 0
@@ -7723,6 +7799,7 @@ GameObject:
   - component: {fileID: 1548843918}
   - component: {fileID: 1548843917}
   - component: {fileID: 1548843916}
+  - component: {fileID: 1548843919}
   m_Layer: 0
   m_Name: Gold Ui
   m_TagString: Untagged
@@ -7803,6 +7880,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548843914}
   m_CullTransparentMesh: 1
+--- !u!114 &1548843919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548843914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7098942aaa2aefc45bfbaf2cb46d7716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScalePop
+  _popScale: 1.2
+  _duration: 0.2
+  _ease: 27
 --- !u!1 &1565433184
 GameObject:
   m_ObjectHideFlags: 0

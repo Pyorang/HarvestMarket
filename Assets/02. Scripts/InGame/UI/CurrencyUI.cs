@@ -1,28 +1,35 @@
+using System;
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(ScalePop))]
 public class CurrencyUI : MonoBehaviour
 {
-    [Header("ÀçÈ­·® Ç¥½Ã UI")]
+    [Header("ìž¬í™”ëŸ‰ í‘œì‹œ UI")]
     [Space]
     [SerializeField] private ResourceType _resourceType = ResourceType.Egg;
     [SerializeField] private TextMeshProUGUI _text;
 
-    private void Start()
+    private ScalePop _scalePop;
+
+    private void Awake()
     {
-        ResourceManager.Instance.OnResourceChanged += UpdateResourceText;
+        _scalePop = GetComponent<ScalePop>();
+        ResourceManager.OnResourceChanged += UpdateResourceText;
     }
 
     public void UpdateResourceText(ResourceType type, int amount)
     {
         if (type == _resourceType)
         {
-            _text.text = $"{amount.ToString()}";
+            _text.text = amount.ToString();
+            _scalePop.Pop();
         }
     }
 
     private void OnDisable()
     {
-        ResourceManager.Instance.OnResourceChanged -= UpdateResourceText;
+        ResourceManager.OnResourceChanged -= UpdateResourceText;
     }
 }
+
