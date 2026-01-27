@@ -26,6 +26,9 @@ public class FeverManager : MonoBehaviour
     [SerializeField] private float _decayDelay = 3f;
     [SerializeField] private float _decayAmount = 5f;
 
+    private const string FEVER_BGM = "Fever";
+    private const string NORMAL_BGM = "BGM";
+
     private float _currentGauge;
     private bool _isFeverActive;
     private float _feverTimer;
@@ -89,6 +92,9 @@ public class FeverManager : MonoBehaviour
         _isFeverActive = true;
         _feverTimer = _feverDuration;
         _currentGauge = _maxGauge;
+        
+        AudioManager.Instance.Play(AudioType.BGM, FEVER_BGM);
+        
         OnFeverStateChanged?.Invoke(true);
     }
 
@@ -97,6 +103,9 @@ public class FeverManager : MonoBehaviour
         _isFeverActive = false;
         _currentGauge = 0f;
         _lastClickTime = Time.time;
+        
+        AudioManager.Instance.Play(AudioType.BGM, NORMAL_BGM);
+        
         OnGaugeChanged?.Invoke(_currentGauge, _maxGauge);
         OnFeverStateChanged?.Invoke(false);
     }

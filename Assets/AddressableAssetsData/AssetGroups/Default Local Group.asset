@@ -50,6 +50,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e65fd79b7437bb64da83a64a47a23e74
+    m_Address: Audio/Fever
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f5fd7bc79f8941b47a71e884f78ffe3a
     m_Address: Audio/Clicker
     m_ReadOnly: 0

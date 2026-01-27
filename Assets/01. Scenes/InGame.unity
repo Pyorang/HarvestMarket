@@ -10283,7 +10283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FeverManager
   _maxGauge: 100
-  _feverDuration: 10
+  _feverDuration: 15
   _bonusMultiplier: 2
   _decayDelay: 3
   _decayAmount: 5
