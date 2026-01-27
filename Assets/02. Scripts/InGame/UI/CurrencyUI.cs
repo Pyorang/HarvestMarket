@@ -5,7 +5,8 @@ public class CurrencyUI : MonoBehaviour
 {
     [Header("재화량 표시 UI")]
     [Space]
-    [SerializeField] private TextMeshProUGUI _eggText;
+    [SerializeField] private ResourceType _resourceType = ResourceType.Egg;
+    [SerializeField] private TextMeshProUGUI _text;
 
     private void Start()
     {
@@ -14,9 +15,9 @@ public class CurrencyUI : MonoBehaviour
 
     public void UpdateResourceText(ResourceType type, int amount)
     {
-        if (type == ResourceType.Egg)
+        if (type == _resourceType)
         {
-            _eggText.text = $"{amount.ToString()}";
+            _text.text = $"{amount.ToString()}";
         }
     }
 
