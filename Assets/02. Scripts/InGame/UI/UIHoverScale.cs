@@ -8,6 +8,7 @@ public class UIHoverScale : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     [SerializeField] private float _hoverScale = 1.2f;
 
     private ScalePop _scalePop;
+    private const string HoverSound = "PointerOn";
 
     private void Awake()
     {
@@ -16,6 +17,7 @@ public class UIHoverScale : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        AudioManager.Instance.Play(AudioType.SFX, HoverSound);
         _scalePop.ScaleTo(_hoverScale);
     }
 
