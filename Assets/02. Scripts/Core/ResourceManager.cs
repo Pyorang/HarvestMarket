@@ -19,9 +19,9 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    private Dictionary<ResourceType, int> _resources = new();
+    private Dictionary<ResourceType, double> _resources = new();
 
-    public static event Action<ResourceType, int> OnResourceChanged;
+    public static event Action<ResourceType, double> OnResourceChanged;
 
     private void Awake()
     {
@@ -50,16 +50,16 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    public int GetResource(ResourceType type) => _resources[type];
+    public double GetResource(ResourceType type) => _resources[type];
 
-    public void AddResource(ResourceType type, int amount)
+    public void AddResource(ResourceType type, double amount)
     {
         if(amount <= 0) return;
-        _resources[type] = Mathf.Max(0, _resources[type] + amount);
+        _resources[type] = System.Math.Max(0, _resources[type] + amount);
         OnResourceChanged?.Invoke(type, _resources[type]);
     }
 
-    public bool TrySpendResource(ResourceType type, int amount)
+    public bool TrySpendResource(ResourceType type, double amount)
     {
         if (_resources[type] >= amount)
         {
@@ -70,9 +70,9 @@ public class ResourceManager : MonoBehaviour
         return false;
     }
 
-    public void SetResource(ResourceType type, int amount)
+    public void SetResource(ResourceType type, double amount)
     {
-        _resources[type] = Mathf.Max(0, amount);
+        _resources[type] = System.Math.Max(0, amount);
         OnResourceChanged?.Invoke(type, _resources[type]);
     }
 }
