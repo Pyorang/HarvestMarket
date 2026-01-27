@@ -2,7 +2,7 @@
 
 public class SoundFeedback : MonoBehaviour, IClickFeedback
 {
-    [SerializeField] private string _soundName = "Clicker";
+    private const string _soundName = "Clicker";
 
     public void Play()
     {

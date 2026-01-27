@@ -34,8 +34,6 @@ public class TextFeedback : MonoBehaviour, IClickFeedback
             Random.Range(_randomRangeZ.x, _randomRangeZ.y)
         );
 
-        Debug.Log(randomOffset);
-
         Vector3 spawnPosition = _spawnLocation.position + _spawnOffset + randomOffset;
 
         var textObj = TextFeedbackPool.Instance.SpawnText(spawnPosition);

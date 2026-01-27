@@ -34,6 +34,7 @@ public class AudioManager : MonoBehaviour
     private readonly Dictionary<string, AsyncOperationHandle<AudioClip>> _loadHandles = new();
 
     private const string AUDIO_ADDRESS_PREFIX = "Audio/";
+    private const string BGM = "BGM";
 
     private void Awake()
     {
@@ -47,6 +48,11 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        Play(AudioType.BGM, BGM);
     }
 
     private void Init()

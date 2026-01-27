@@ -23,7 +23,7 @@ public class Farm : MonoBehaviour
 
     private void Start()
     {
-        InitializeAnimals();
+        //InitializeAnimals();
     }
 
     private void Update()
