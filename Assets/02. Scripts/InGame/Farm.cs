@@ -2,12 +2,12 @@
 
 public class Farm : MonoBehaviour
 {
-    private int _clickReward = 1;
-    private int _autoReward = 0;
+    private double _clickReward = 999;
+    private double _autoReward = 0;
     private float _timeElapsed = 0f;
     private static readonly float _autoInterval = 1.0f;
 
-    public int ClickReward => _clickReward;
+    public double ClickReward => _clickReward;
 
     [Header("보상 종류")]
     [Space]

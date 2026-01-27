@@ -26,7 +26,7 @@ public class TextFeedback : MonoBehaviour, IClickFeedback
         _farm = GetComponent<Farm>();
     }
 
-    public void Play()
+    public void Play(ClickInfo clickInfo)
     {
         Vector3 randomOffset = new Vector3(
             Random.Range(_randomRangeX.x, _randomRangeX.y),
@@ -38,14 +38,15 @@ public class TextFeedback : MonoBehaviour, IClickFeedback
 
         var textObj = TextFeedbackPool.Instance.SpawnText(spawnPosition);
 
-        var icon = TextFeedbackPool.Instance.SpawnIcon(
-            _farm.Resource,
-            _iconOffset,
-            textObj.transform
-        );
-
         if (textObj.TryGetComponent<ResourceGainText>(out var gainText))
         {
+            gainText.SetGainText(clickInfo.Amount);
+
+            var icon = TextFeedbackPool.Instance.SpawnIcon(
+                clickInfo.ResourceType,
+                _iconOffset,
+                textObj.transform
+            );
             gainText.SetIcon(icon);
         }
     }

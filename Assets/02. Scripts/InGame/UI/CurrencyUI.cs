@@ -18,11 +18,11 @@ public class CurrencyUI : MonoBehaviour
         ResourceManager.OnResourceChanged += UpdateResourceText;
     }
 
-    public void UpdateResourceText(ResourceType type, int amount)
+    public void UpdateResourceText(ResourceType type, double amount)
     {
         if (type == _resourceType)
         {
-            _text.text = amount.ToString();
+            _text.text = amount.ToFormattedString();
             _scalePop.Pop();
         }
     }

@@ -1,10 +1,17 @@
 ﻿using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class ResourceGainText : MonoBehaviour
 {
+    [Header("이동 설정")]
+    [Space]
     [SerializeField] private float _moveDistance = 0.1f;
     [SerializeField] private float _duration = 1f;
+
+    [Header("텍스트")]
+    [Space]
+    [SerializeField] private TextMeshPro _gainText;
 
     private Vector3 _initialLocalPosition;
     private GameObject _spawnedIcon;
@@ -17,6 +24,11 @@ public class ResourceGainText : MonoBehaviour
     private void OnEnable()
     {
         Play();
+    }
+
+    public void SetGainText(double amount)
+    {
+        _gainText.text = $"+{amount.ToFormattedString()}";
     }
 
     public void SetIcon(GameObject icon)

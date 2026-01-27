@@ -1,4 +1,4 @@
 ﻿public interface IClickFeedback
 {
-    void Play();
+    void Play(ClickInfo clickInfo);
 }
