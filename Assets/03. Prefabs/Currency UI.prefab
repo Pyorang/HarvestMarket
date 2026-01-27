@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 8409382235284277305}
   - component: {fileID: 5086084027965075258}
   - component: {fileID: 4413617970396716537}
+  - component: {fileID: 1815065357064830000}
   m_Layer: 5
   m_Name: Currency UI
   m_TagString: Untagged
@@ -100,7 +101,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745598093201960718}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -152,6 +153,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1815065357064830000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745598093201960718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea761a3f5db0bfc489901386becce208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _resourceType: 0
+  _text: {fileID: 4623438618932617416}
 --- !u!1 &6014827079457806288
 GameObject:
   m_ObjectHideFlags: 0

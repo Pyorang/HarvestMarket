@@ -42,6 +42,7 @@ public class ResourceManager : MonoBehaviour
         foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))
         {
             _resources[type] = 0;
+            OnResourceChanged?.Invoke(type, _resources[type]);
         }
     }
 
