@@ -94,6 +94,7 @@ public class FeverManager : MonoBehaviour
         _currentGauge = _maxGauge;
         
         AudioManager.Instance.Play(AudioType.BGM, FEVER_BGM);
+        SkyBoxController.Instance.TransitionToFever();
         
         OnFeverStateChanged?.Invoke(true);
     }
@@ -105,6 +106,7 @@ public class FeverManager : MonoBehaviour
         _lastClickTime = Time.time;
         
         AudioManager.Instance.Play(AudioType.BGM, NORMAL_BGM);
+        SkyBoxController.Instance.TransitionToNormal();
         
         OnGaugeChanged?.Invoke(_currentGauge, _maxGauge);
         OnFeverStateChanged?.Invoke(false);

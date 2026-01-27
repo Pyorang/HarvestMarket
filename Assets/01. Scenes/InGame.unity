@@ -994,6 +994,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 222987175}
+  - component: {fileID: 222987176}
   m_Layer: 0
   m_Name: SkyBoxController
   m_TagString: Untagged
@@ -1016,6 +1017,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &222987176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222987174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764466f37aba7df4eafea46606b44d23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkyBoxController
+  _skyboxMaterial: {fileID: 2100000, guid: 4d0e0ffc7a6c1bf44b435e0b23260f8c, type: 2}
+  _normalColorTop: {r: 1, g: 1, b: 1, a: 1}
+  _normalColorMiddle: {r: 0.5254902, g: 1, b: 0.8509804, a: 1}
+  _normalColorBottom: {r: 0.21176471, g: 0.23529412, b: 1, a: 1}
+  _feverColorTop: {r: 0, g: 0, b: 0, a: 1}
+  _feverColorMiddle: {r: 0.007843138, g: 0, b: 0.16862746, a: 1}
+  _feverColorBottom: {r: 0, g: 0.015686275, b: 0.5176471, a: 1}
+  _directionalLight: {fileID: 410087040}
+  _normalIntensity: 2
+  _feverIntensity: 0
+  _transitionDuration: 0.25
 --- !u!1 &226165097
 GameObject:
   m_ObjectHideFlags: 0
