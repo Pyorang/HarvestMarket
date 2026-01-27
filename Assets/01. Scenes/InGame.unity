@@ -2751,6 +2751,7 @@ GameObject:
   - component: {fileID: 509360147}
   - component: {fileID: 509360146}
   - component: {fileID: 509360145}
+  - component: {fileID: 509360152}
   m_Layer: 3
   m_Name: Pig Farm
   m_TagString: Untagged
@@ -2890,6 +2891,19 @@ Transform:
   - {fileID: 438079886}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &509360152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509360144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c5efdce41df17c44ab7be2bdadff0f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FeverFeedback
+  _gaugeAmount: 2
 --- !u!1001 &523332793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3079,6 +3093,7 @@ GameObject:
   - component: {fileID: 559307869}
   - component: {fileID: 559307868}
   - component: {fileID: 559307867}
+  - component: {fileID: 559307874}
   m_Layer: 3
   m_Name: Cow Farm
   m_TagString: Untagged
@@ -3218,6 +3233,19 @@ Transform:
   - {fileID: 1714501989}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &559307874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559307866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c5efdce41df17c44ab7be2bdadff0f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FeverFeedback
+  _gaugeAmount: 2
 --- !u!1001 &560019656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3615,17 +3643,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1536715584}
     m_Modifications:
-    - target: {fileID: 1036937736606745906, guid: 6ab5da6316d024791adbd9fcdc6c3f83, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.37365723
-      objectReference: {fileID: 0}
     - target: {fileID: 1036937736969258757, guid: 6ab5da6316d024791adbd9fcdc6c3f83, type: 3}
       propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1036937736969258757, guid: 6ab5da6316d024791adbd9fcdc6c3f83, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 0
+      propertyPath: m_MaxValue
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1036937736969258758, guid: 6ab5da6316d024791adbd9fcdc6c3f83, type: 3}
       propertyPath: m_Pivot.x
@@ -3710,14 +3734,6 @@ PrefabInstance:
     - target: {fileID: 1036937736969258759, guid: 6ab5da6316d024791adbd9fcdc6c3f83, type: 3}
       propertyPath: m_Name
       value: Fever Gauge
-      objectReference: {fileID: 0}
-    - target: {fileID: 1036937737461085167, guid: 6ab5da6316d024791adbd9fcdc6c3f83, type: 3}
-      propertyPath: m_text
-      value: Fever
-      objectReference: {fileID: 0}
-    - target: {fileID: 1036937737461085167, guid: 6ab5da6316d024791adbd9fcdc6c3f83, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
-      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 1036937737522752290, guid: 6ab5da6316d024791adbd9fcdc6c3f83, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6625,6 +6641,7 @@ GameObject:
   - component: {fileID: 1239383456}
   - component: {fileID: 1239383455}
   - component: {fileID: 1239383457}
+  - component: {fileID: 1239383458}
   m_Layer: 3
   m_Name: Chicken Farm
   m_TagString: Untagged
@@ -6764,6 +6781,19 @@ MonoBehaviour:
   _randomRangeZ: {x: -0.125, y: 0.125}
   _iconOffset: {x: 0.07, y: -0.017, z: 0}
   _gizmoColor: {r: 1, g: 0, b: 0.1181407, a: 1}
+--- !u!114 &1239383458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239383450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c5efdce41df17c44ab7be2bdadff0f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FeverFeedback
+  _gaugeAmount: 2
 --- !u!1001 &1247042527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10223,6 +10253,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6063373481638156529, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
   m_PrefabInstance: {fileID: 2105869395}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2113273279
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2113273281}
+  - component: {fileID: 2113273280}
+  m_Layer: 0
+  m_Name: FeverManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2113273280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113273279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbd53d918e127d44381b7e26312c0938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FeverManager
+  _maxGauge: 100
+  _feverDuration: 10
+  _bonusMultiplier: 2
+  _decayDelay: 3
+  _decayAmount: 5
+--- !u!4 &2113273281
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113273279}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2136143129
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10401,6 +10480,7 @@ SceneRoots:
   - {fileID: 509360151}
   - {fileID: 559307873}
   - {fileID: 1488874627}
+  - {fileID: 2113273281}
   - {fileID: 222987175}
   - {fileID: 767677963}
   - {fileID: 882659531}

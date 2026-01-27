@@ -21,14 +21,15 @@ public class FarmClicker : MonoBehaviour, IPointerDownHandler
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            ClickInfo clickInfo = new ClickInfo(_farm.Resource, _farm.ClickReward);
+            double reward = _farm.ClickReward * FeverManager.Instance.BonusMultiplier;
+            ClickInfo clickInfo = new ClickInfo(_farm.Resource, reward);
 
             foreach (var feedback in _feedbacks)
             {
                 feedback.Play(clickInfo);
             }
 
-            ResourceManager.Instance.AddResource(_farm.Resource, _farm.ClickReward);
+            ResourceManager.Instance.AddResource(_farm.Resource, reward);
         }
     }
 }
