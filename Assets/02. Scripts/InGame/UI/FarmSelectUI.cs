@@ -6,6 +6,7 @@ public class FarmSelectUI : MonoBehaviour
     [SerializeField] private Button _previousButton;
     [SerializeField] private Button _nextButton;
 
+    private const string ButtonClickSound = "ButtonClick";
     private const string FarmChangeSound = "Farm";
 
     private void OnEnable()
@@ -20,11 +21,13 @@ public class FarmSelectUI : MonoBehaviour
 
     public void OnPreviousClicked()
     {
+        AudioManager.Instance.Play(AudioType.SFX, ButtonClickSound);
         FarmManager.Instance.MoveToPreviousFarm();
     }
 
     public void OnNextClicked()
     {
+        AudioManager.Instance.Play(AudioType.SFX, ButtonClickSound);
         FarmManager.Instance.MoveToNextFarm();
     }
 

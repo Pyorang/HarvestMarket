@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3d78191374c394a47958d61040e8f319
+    m_Address: Audio/ButtonClick
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 455d9c7bb6522e141ac39ad47e82c500
     m_Address: Audio/Farm1
     m_ReadOnly: 0
@@ -50,18 +55,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e65fd79b7437bb64da83a64a47a23e74
-    m_Address: Audio/Fever
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f5fd7bc79f8941b47a71e884f78ffe3a
+  - m_GUID: b1975ee96a7c6784e88f4b206cdc36dd
     m_Address: Audio/Clicker
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fcc505bc18dfa004ea79af86a8a2140b
+  - m_GUID: ba5ba2be05e921a409518162ec09386f
     m_Address: Audio/PointerOn
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e65fd79b7437bb64da83a64a47a23e74
+    m_Address: Audio/Fever
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
