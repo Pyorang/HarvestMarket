@@ -241,3 +241,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ResourceGainText
   _moveDistance: 0.1
   _duration: 1
+  _gainText: {fileID: 7070895725285741627}

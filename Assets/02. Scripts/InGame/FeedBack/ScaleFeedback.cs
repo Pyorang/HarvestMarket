@@ -16,7 +16,7 @@ public class ScaleFeedback : MonoBehaviour, IClickFeedback
         _farm = GetComponent<Farm>();
     }
 
-    public void Play()
+    public void Play(ClickInfo clickInfo)
     {
         foreach (var animal in _farm.Animals)
         {
