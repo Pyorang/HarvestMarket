@@ -3,7 +3,7 @@
 public class Farm : MonoBehaviour
 {
     private double _clickReward = 999;
-    private double _autoReward = 0;
+    private double _autoReward = 1000;
     private float _timeElapsed = 0f;
     private static readonly float _autoInterval = 1.0f;
 
@@ -21,6 +21,13 @@ public class Farm : MonoBehaviour
 
     public GameObject[] Animals => _animals;
 
+    private TextFeedback _textFeedback;
+
+    private void Awake()
+    {
+        _textFeedback = GetComponent<TextFeedback>();
+    }
+
     private void Start()
     {
         //InitializeAnimals();
@@ -32,7 +39,16 @@ public class Farm : MonoBehaviour
 
         if(_timeElapsed >= _autoInterval)
         {
-            ResourceManager.Instance.AddResource(_resourceType, _autoReward);
+            double reward = _autoReward * FeverManager.Instance.BonusMultiplier;
+
+            ResourceManager.Instance.AddResource(_resourceType, reward);
+
+            if (_textFeedback != null)
+            {
+                ClickInfo clickInfo = new ClickInfo(_resourceType, reward);
+                _textFeedback.Play(clickInfo);
+            }
+
             _timeElapsed = 0f;
         }
     }
