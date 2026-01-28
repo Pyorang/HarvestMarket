@@ -38,15 +38,28 @@ public class ResourceManager : MonoBehaviour
 
     private void Start()
     {
-        InitializeResources();
+        InitializeFromUserData();
     }
 
-    private void InitializeResources()
+    private void InitializeFromUserData()
     {
-        foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))
+        var resourceData = UserDataManager.Instance.GetUserData<ResourceData>();
+
+        if (resourceData != null)
         {
-            _resources[type] = 0;
-            OnResourceChanged?.Invoke(type, _resources[type]);
+            foreach (var pair in resourceData.Resources)
+            {
+                _resources[pair.Key] = pair.Value;
+                OnResourceChanged?.Invoke(pair.Key, pair.Value);
+            }
+        }
+        else
+        {
+            foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))
+            {
+                _resources[type] = 0;
+                OnResourceChanged?.Invoke(type, 0);
+            }
         }
     }
 
