@@ -2,12 +2,19 @@
 
 public class Farm : MonoBehaviour
 {
-    private double _clickReward = 999;
-    private double _autoReward = 1000;
+    private double _clickReward = 1;
+    private double _autoReward = 1;
+
+    [Header("보상 범위 (랜덤)")]
+    [Space]
+    [SerializeField] private int _minReward = 1;
+    [SerializeField] private int _maxReward = 999999999;
+
     private float _timeElapsed = 0f;
     private static readonly float _autoInterval = 1.0f;
 
-    public double ClickReward => _clickReward;
+    // NOTE : 클릭잼용 추후 삭제 해야됨
+    public double ClickReward => (float)GetRandomReward();
 
     [Header("보상 종류")]
     [Space]
@@ -22,6 +29,12 @@ public class Farm : MonoBehaviour
     public GameObject[] Animals => _animals;
 
     private TextFeedback _textFeedback;
+
+    // NOTE : 클릭잼용 추후 삭제 해야됨
+    private int GetRandomReward()
+    {
+        return Random.Range(_minReward, _maxReward + 1);
+    }
 
     private void Awake()
     {
@@ -39,7 +52,7 @@ public class Farm : MonoBehaviour
 
         if(_timeElapsed >= _autoInterval)
         {
-            double reward = _autoReward * FeverManager.Instance.BonusMultiplier;
+            double reward = (float)GetRandomReward() * FeverManager.Instance.BonusMultiplier;
 
             ResourceManager.Instance.AddResource(_resourceType, reward);
 
