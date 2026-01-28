@@ -329,6 +329,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 509360151}
     m_Modifications:
+    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0249
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0065
+      objectReference: {fileID: 0}
     - target: {fileID: 1922223702315808375, guid: bb192895d03be164b857acbdaa039474, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.06512755
@@ -384,14 +392,6 @@ PrefabInstance:
     - target: {fileID: 3239853523437372516, guid: bb192895d03be164b857acbdaa039474, type: 3}
       propertyPath: m_Name
       value: Pig (9)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.0249
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.0065
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3128,6 +3128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7581b9012c73a6441b3d07f66ed294cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Farm
+  _minReward: 1
+  _maxReward: 999999999
   _resourceType: 1
   _animals:
   - {fileID: 73609646}
@@ -3483,6 +3485,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7581b9012c73a6441b3d07f66ed294cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Farm
+  _minReward: 1
+  _maxReward: 999999999
   _resourceType: 2
   _animals:
   - {fileID: 679824504}
@@ -4069,6 +4073,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 559307873}
     m_Modifications:
+    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0249
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0065
+      objectReference: {fileID: 0}
     - target: {fileID: -1247356407196137952, guid: b37980a4e2ef8f749875ceab98b4ba98, type: 3}
       propertyPath: _turnCooldown
       value: 0.2
@@ -4124,14 +4136,6 @@ PrefabInstance:
     - target: {fileID: 3773990497134389268, guid: b37980a4e2ef8f749875ceab98b4ba98, type: 3}
       propertyPath: m_Name
       value: Cow (5)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.0249
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.0065
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7617,6 +7621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7581b9012c73a6441b3d07f66ed294cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Farm
+  _minReward: 1
+  _maxReward: 999999999
   _resourceType: 0
   _animals:
   - {fileID: 196068993}
