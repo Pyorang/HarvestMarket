@@ -11,4 +11,20 @@ public class ResolutionManager : MonoBehaviour
     {
         Screen.SetResolution(targetWidth, targetHeight, isFullscreen);
     }
+
+    private void Update()
+    {
+        if (Screen.fullScreen != isFullscreen)
+        {
+            isFullscreen = Screen.fullScreen;
+
+            Screen.SetResolution(targetWidth, targetHeight, isFullscreen);
+        }
+    }
+
+    public void ToggleFullscreen()
+    {
+        isFullscreen = !isFullscreen;
+        Screen.SetResolution(targetWidth, targetHeight, isFullscreen);
+    }
 }
