@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class UpgradeData : IUserData
+public class PlayerUpgradeData : IUserData
 {
     public Dictionary<UpgradeType, int> UpgradeLevels { get; private set; } = new();
 

@@ -16,7 +16,7 @@ public class UserDataManager : MonoBehaviour
         ExistsSavedData = PlayerPrefs.GetInt(nameof(ExistsSavedData)) == 1;
 
         UserDataList.Add(new ResourceData());
-        UserDataList.Add(new UpgradeData());
+        UserDataList.Add(new PlayerUpgradeData());
 
         if (ExistsSavedData)
         {

@@ -3,21 +3,15 @@ using System;
 [Serializable]
 public class Upgrade
 {
-    // 기본 정보
     public UpgradeType Type { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
-    
-    // 레벨 관련
     public int MaxLevel { get; private set; }
-    
-    // 비용 관련
     public float BaseCost { get; private set; }
     public float CostMultiplier { get; private set; }
-    
-    // 효과 관련
     public float BaseValue { get; private set; }
     public float ValueMultiplier { get; private set; }
+    public int CurrentLevel { get; private set; }
 
     public Upgrade(
         UpgradeType type,
@@ -27,11 +21,12 @@ public class Upgrade
         float baseCost,
         float costMultiplier,
         float baseValue,
-        float valueMultiplier)
+        float valueMultiplier,
+        int currentLevel = 0)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Name cannot be null or empty.", nameof(name));
-        
+
         if (string.IsNullOrWhiteSpace(description))
             throw new ArgumentException("Description cannot be null or empty.", nameof(description));
 
@@ -40,15 +35,18 @@ public class Upgrade
 
         if (baseCost < 0)
             throw new ArgumentOutOfRangeException(nameof(baseCost), "BaseCost cannot be negative.");
-        
+
         if (costMultiplier <= 0)
             throw new ArgumentOutOfRangeException(nameof(costMultiplier), "CostMultiplier must be greater than 0.");
 
         if (baseValue < 0)
             throw new ArgumentOutOfRangeException(nameof(baseValue), "BaseValue cannot be negative.");
-        
+
         if (valueMultiplier < 0)
             throw new ArgumentOutOfRangeException(nameof(valueMultiplier), "ValueMultiplier cannot be negative.");
+
+        if (currentLevel < 0 || currentLevel > maxLevel)
+            throw new ArgumentOutOfRangeException(nameof(currentLevel), "CurrentLevel must be between 0 and MaxLevel.");
 
         Type = type;
         Name = name;
@@ -58,50 +56,42 @@ public class Upgrade
         CostMultiplier = costMultiplier;
         BaseValue = baseValue;
         ValueMultiplier = valueMultiplier;
+        CurrentLevel = currentLevel;
     }
 
-    public float GetCost(int currentLevel)
+    public float GetCost()
     {
-        if (currentLevel < 0)
-            throw new ArgumentOutOfRangeException(nameof(currentLevel), "Level cannot be negative.");
-        
-        if (currentLevel >= MaxLevel) return -1f;
-        
-        if (currentLevel == 0) return BaseCost;
-
-        return BaseCost + MathF.Pow(CostMultiplier, currentLevel);
+        if (CurrentLevel >= MaxLevel) return -1f;
+        return BaseCost + MathF.Pow(CostMultiplier, CurrentLevel);
     }
 
-    public float GetTotalValue(int currentLevel)
+    public float GetTotalValue()
     {
-        if (currentLevel < 0)
-            throw new ArgumentOutOfRangeException(nameof(currentLevel), "Level cannot be negative.");
-        
-        if (currentLevel == 0) return BaseValue;
-        
-        return BaseValue + (currentLevel * ValueMultiplier);
+        if (CurrentLevel == 0) return BaseValue;
+        return BaseValue + (CurrentLevel * ValueMultiplier);
     }
 
-    public float GetNextLevelAddedValue(int currentLevel)
+    public bool CanUpgrade(float currentGold)
     {
-        if (currentLevel < 0)
-            throw new ArgumentOutOfRangeException(nameof(currentLevel), "Level cannot be negative.");
-        
-        if (currentLevel >= MaxLevel) return 0f;
-        
-        return GetTotalValue(currentLevel + 1) - GetTotalValue(currentLevel);
+        if (CurrentLevel >= MaxLevel) return false;
+        return currentGold >= GetCost();
     }
 
-    public bool CanUpgrade(int currentLevel, float currentGold)
+    public bool IsMaxLevel()
     {
-        if (currentLevel < 0 || currentGold < 0) return false;
-        if (currentLevel >= MaxLevel) return false;
-        
-        return currentGold >= GetCost(currentLevel);
+        return CurrentLevel >= MaxLevel;
     }
 
-    public bool IsMaxLevel(int currentLevel)
+    public void LevelUp()
     {
-        return currentLevel >= MaxLevel;
+        if (CurrentLevel < MaxLevel)
+            CurrentLevel++;
+    }
+
+    public void SetLevel(int level)
+    {
+        if (level < 0) level = 0;
+        if (level > MaxLevel) level = MaxLevel;
+        CurrentLevel = level;
     }
 }

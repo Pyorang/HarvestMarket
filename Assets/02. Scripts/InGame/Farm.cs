@@ -19,10 +19,8 @@ public class Farm : MonoBehaviour
     {
         get
         {
-            UpgradeType clickUpgrade = GetClickUpgradeType();
-            int level = UpgradeManager.Instance.GetCurrentLevel(clickUpgrade);
-            var upgrade = UpgradeManager.Instance.GetUpgrade(clickUpgrade);
-            return upgrade.GetTotalValue(level);
+            var upgrade = UpgradeManager.Instance.GetUpgrade(GetClickUpgradeType());
+            return upgrade?.GetTotalValue() ?? 0;
         }
     }
 
@@ -30,10 +28,8 @@ public class Farm : MonoBehaviour
     {
         get
         {
-            UpgradeType autoUpgrade = GetAutoUpgradeType();
-            int level = UpgradeManager.Instance.GetCurrentLevel(autoUpgrade);
-            var upgrade = UpgradeManager.Instance.GetUpgrade(autoUpgrade);
-            return upgrade.GetTotalValue(level);
+            var upgrade = UpgradeManager.Instance.GetUpgrade(GetAutoUpgradeType());
+            return upgrade?.GetTotalValue() ?? 0;
         }
     }
 

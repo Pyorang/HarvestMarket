@@ -50,17 +50,15 @@ public class UpgradeUI : MonoBehaviour
         _upgrade = UpgradeManager.Instance.GetUpgrade(_upgradeType);
         if (_upgrade == null) return;
 
-        int currentLevel = UpgradeManager.Instance.GetCurrentLevel(_upgradeType);
+        _titleText.text = $"{_upgrade.Name} (Lv. {_upgrade.CurrentLevel})";
 
-        _titleText.text = $"{_upgrade.Name} (Lv. {currentLevel})";
-
-        if (_upgrade.IsMaxLevel(currentLevel))
+        if (_upgrade.IsMaxLevel())
         {
             _costText.text = "MAX";
         }
         else
         {
-            float cost = _upgrade.GetCost(currentLevel);
+            float cost = _upgrade.GetCost();
             _costText.text = $"{((double)cost).ToFormattedString()}";
         }
 
@@ -71,11 +69,8 @@ public class UpgradeUI : MonoBehaviour
     {
         if (_upgrade == null || _upgradeButton == null) return;
 
-        int currentLevel = UpgradeManager.Instance.GetCurrentLevel(_upgradeType);
         float currentGold = (float)ResourceManager.Instance.GetResource(ResourceType.Gold);
-
-        bool canUpgrade = _upgrade.CanUpgrade(currentLevel, currentGold);
-        _upgradeButton.interactable = canUpgrade;
+        _upgradeButton.interactable = _upgrade.CanUpgrade(currentGold);
     }
 
     public void OnClickUpgrade()
@@ -110,9 +105,7 @@ public class UpgradeUI : MonoBehaviour
     {
         if (_upgrade == null) return false;
 
-        int currentLevel = UpgradeManager.Instance.GetCurrentLevel(_upgradeType);
         float currentGold = (float)ResourceManager.Instance.GetResource(ResourceType.Gold);
-
-        return _upgrade.CanUpgrade(currentLevel, currentGold);
+        return _upgrade.CanUpgrade(currentGold);
     }
 }

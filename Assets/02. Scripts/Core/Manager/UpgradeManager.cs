@@ -8,7 +8,7 @@ public class UpgradeManager : MonoBehaviour
 
     private Dictionary<UpgradeType, Upgrade> _upgrades = new();
 
-    private UpgradeData _upgradeData;
+    private PlayerUpgradeData _upgradeData;
 
     public static event Action<UpgradeType, int> OnUpgraded;
 
@@ -28,8 +28,16 @@ public class UpgradeManager : MonoBehaviour
 
     private void Start()
     {
-        InitializeUpgrades();
         LoadUpgradeData();
+        InitializeUpgrades();
+    }
+
+    private void LoadUpgradeData()
+    {
+        _upgradeData = UserDataManager.Instance.GetUserData<PlayerUpgradeData>();
+
+        if (_upgradeData == null)
+            Debug.LogError("[UpgradeManager] PlayerUpgradeData not found in UserDataManager!");
     }
 
     private void InitializeUpgrades()
@@ -42,7 +50,8 @@ public class UpgradeManager : MonoBehaviour
             baseCost: 50f,
             costMultiplier: 1.15f,
             baseValue: 0f,
-            valueMultiplier: 0.5f
+            valueMultiplier: 0.5f,
+            currentLevel: _upgradeData.GetLevel(UpgradeType.ChickenCoop)
         );
 
         _upgrades[UpgradeType.Pigpen] = new Upgrade(
@@ -53,7 +62,8 @@ public class UpgradeManager : MonoBehaviour
             baseCost: 300f,
             costMultiplier: 1.15f,
             baseValue: 0f,
-            valueMultiplier: 0.2f
+            valueMultiplier: 0.2f,
+            currentLevel: _upgradeData.GetLevel(UpgradeType.Pigpen)
         );
 
         _upgrades[UpgradeType.CattleBarn] = new Upgrade(
@@ -64,7 +74,8 @@ public class UpgradeManager : MonoBehaviour
             baseCost: 1500f,
             costMultiplier: 1.15f,
             baseValue: 0f,
-            valueMultiplier: 0.08f
+            valueMultiplier: 0.08f,
+            currentLevel: _upgradeData.GetLevel(UpgradeType.CattleBarn)
         );
 
         _upgrades[UpgradeType.EggBasket] = new Upgrade(
@@ -75,7 +86,8 @@ public class UpgradeManager : MonoBehaviour
             baseCost: 30f,
             costMultiplier: 1.20f,
             baseValue: 1f,
-            valueMultiplier: 1f
+            valueMultiplier: 1f,
+            currentLevel: _upgradeData.GetLevel(UpgradeType.EggBasket)
         );
 
         _upgrades[UpgradeType.ButcherKnife] = new Upgrade(
@@ -86,7 +98,8 @@ public class UpgradeManager : MonoBehaviour
             baseCost: 200f,
             costMultiplier: 1.20f,
             baseValue: 1f,
-            valueMultiplier: 1f
+            valueMultiplier: 1f,
+            currentLevel: _upgradeData.GetLevel(UpgradeType.ButcherKnife)
         );
 
         _upgrades[UpgradeType.MilkBucket] = new Upgrade(
@@ -97,18 +110,9 @@ public class UpgradeManager : MonoBehaviour
             baseCost: 1000f,
             costMultiplier: 1.20f,
             baseValue: 1f,
-            valueMultiplier: 1f
+            valueMultiplier: 1f,
+            currentLevel: _upgradeData.GetLevel(UpgradeType.MilkBucket)
         );
-    }
-
-    private void LoadUpgradeData()
-    {
-        _upgradeData = UserDataManager.Instance.GetUserData<UpgradeData>();
-        
-        if (_upgradeData == null)
-        {
-            Debug.LogError("[UpgradeManager] UpgradeData not found in UserDataManager!");
-        }
     }
 
     public Upgrade GetUpgrade(UpgradeType type)
@@ -116,31 +120,26 @@ public class UpgradeManager : MonoBehaviour
         return _upgrades.TryGetValue(type, out var upgrade) ? upgrade : null;
     }
 
-    public int GetCurrentLevel(UpgradeType type)
-    {
-        return _upgradeData?.GetLevel(type) ?? 0;
-    }
-
     public bool TryUpgrade(UpgradeType type)
     {
         var upgrade = GetUpgrade(type);
         if (upgrade == null) return false;
 
-        int currentLevel = GetCurrentLevel(type);
-        float gold = (float)ResourceManager.Instance.GetResource(ResourceType.Gold);
+        float currentGold = (float)ResourceManager.Instance.GetResource(ResourceType.Gold);
 
-        if (!upgrade.CanUpgrade(currentLevel, gold))
+        if (!upgrade.CanUpgrade(currentGold))
             return false;
 
-        float cost = upgrade.GetCost(currentLevel);
+        float cost = upgrade.GetCost();
 
         if (!ResourceManager.Instance.TrySpendResource(ResourceType.Gold, cost))
             return false;
 
-        _upgradeData.AddLevel(type);
+        upgrade.LevelUp();
+        _upgradeData.SetLevel(type, upgrade.CurrentLevel);
         UserDataManager.Instance.SaveUserData();
 
-        OnUpgraded?.Invoke(type, GetCurrentLevel(type));
+        OnUpgraded?.Invoke(type, upgrade.CurrentLevel);
         return true;
     }
 }
