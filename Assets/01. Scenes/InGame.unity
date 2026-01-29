@@ -7949,12 +7949,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 969986573}
   - {fileID: 2119798095}
-  - {fileID: 888008532}
+  - {fileID: 969986573}
   - {fileID: 540713750}
-  - {fileID: 487972556}
+  - {fileID: 888008532}
   - {fileID: 1776639640}
+  - {fileID: 487972556}
   m_Father: {fileID: 1661347751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -11930,6 +11930,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3436730849025277187, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3496764845937350370, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}
       propertyPath: m_Name
       value: Upgrade Content (5)
@@ -12147,6 +12151,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2952437737331813117, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436730849025277187, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3496764845937350370, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}
@@ -13497,6 +13505,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3436730849025277187, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3496764845937350370, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}
       propertyPath: m_Name
       value: Upgrade Content (1)
@@ -14496,6 +14508,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3436730849025277187, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3496764845937350370, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}
       propertyPath: m_Name
       value: Upgrade Content
@@ -14506,7 +14522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4062990991312230476, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}
       propertyPath: m_fontSize
-      value: 24
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 4089531970047066358, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}
       propertyPath: m_AnchorMax.y
