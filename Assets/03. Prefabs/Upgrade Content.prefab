@@ -259,7 +259,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7537389246702502015}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9074925322899754857}
+        m_TargetAssemblyTypeName: UpgradeUI, Assembly-CSharp
+        m_MethodName: OnClickUpgrade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5887276105392517789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,7 +482,7 @@ GameObject:
   - component: {fileID: 2068494247610225121}
   - component: {fileID: 2835012181958274165}
   m_Layer: 0
-  m_Name: Cost Text
+  m_Name: Cost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -610,6 +622,7 @@ GameObject:
   - component: {fileID: 2952437737331813117}
   - component: {fileID: 3682180116719757193}
   - component: {fileID: 4709959315674915039}
+  - component: {fileID: 9074925322899754857}
   m_Layer: 0
   m_Name: Upgrade Content
   m_TagString: Untagged
@@ -678,6 +691,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9074925322899754857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3496764845937350370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2edee8fec43239d4db9f446bce792bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeUI
+  _upgradeType: 0
+  _titleText: {fileID: 4062990991312230476}
+  _costText: {fileID: 6323820341994152704}
+  _upgradeButton: {fileID: 8487644394204996211}
+  _lockImage: {fileID: 2591914308163592034}
 --- !u!1 &4027095901645100242
 GameObject:
   m_ObjectHideFlags: 0
