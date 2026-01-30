@@ -21,11 +21,11 @@ public class FarmClicker : MonoBehaviour, IPointerDownHandler
 
     private void Update()
     {
-        if (_pendingSave && Time.time - _lastClickTime >= SAVE_DELAY)
+        /*if (_pendingSave && Time.time - _lastClickTime >= SAVE_DELAY)
         {
             UserDataManager.Instance.SaveUserData();
             _pendingSave = false;
-        }
+        }*/
     }
 
     public void OnPointerDown(PointerEventData eventData)

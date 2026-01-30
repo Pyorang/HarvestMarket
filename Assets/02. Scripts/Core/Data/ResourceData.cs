@@ -13,6 +13,9 @@ public class ResourceData : IUserData
         {
             Resources[type] = 0f;
         }
+        
+        // NOTE : 잠시 테스트 용도로 골드 세팅
+        Resources[ResourceType.Gold] = 10000f;
     }
 
     public bool LoadData()
@@ -27,7 +30,6 @@ public class ResourceData : IUserData
 
     public bool SaveData()
     {
-        // ResourceManager에서 현재 값 동기화
         foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))
         {
             Resources[type] = (float)ResourceManager.Instance.GetResource(type);
