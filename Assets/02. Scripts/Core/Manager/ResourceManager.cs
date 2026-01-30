@@ -42,7 +42,7 @@ public class ResourceManager : MonoBehaviour
 
     private void InitializeFromUserData()
     {
-        var resourceData = UserDataManager.Instance.GetUserData<ResourceData>();
+        var resourceData = UserDataManager.Instance.ResourceData;
 
         if (resourceData != null)
         {

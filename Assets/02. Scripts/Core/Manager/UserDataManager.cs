@@ -1,76 +1,76 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class UserDataManager : MonoBehaviour
 {
     public static UserDataManager Instance { get; private set; }
 
-    public bool ExistsSavedData { get; private set; } = false;
-    public List<IUserData> UserDataList { get; private set; } = new();
+    private IRepository<ResourceData> _resourceRepository;
+    private IRepository<PlayerUpgradeData> _upgradeRepository;
+
+    public ResourceData ResourceData { get; private set; }
+    public PlayerUpgradeData UpgradeData { get; private set; }
 
     private void Awake()
     {
         Instance = this;
 
-        ExistsSavedData = PlayerPrefs.GetInt(nameof(ExistsSavedData)) == 1;
+        _resourceRepository = new ResourceRepository();
+        _upgradeRepository = new UpgradeRepository();
 
-        UserDataList.Add(new ResourceData());
-        UserDataList.Add(new PlayerUpgradeData());
-
-        if (ExistsSavedData)
+        if (_resourceRepository.Exists())
         {
-            LoadUserData();
+            LoadAll();
         }
         else
         {
-            SetDefaultData();
+            SetDefaultAll();
         }
     }
 
-    public void SetDefaultData()
+    public void SetDefaultAll()
     {
-        foreach (var data in UserDataList)
+        ResourceData = new ResourceData();
+        ResourceData.SetDefault();
+
+        UpgradeData = new PlayerUpgradeData();
+        UpgradeData.SetDefault();
+    }
+
+    public void LoadAll()
+    {
+        ResourceData = _resourceRepository.Load();
+        UpgradeData = _upgradeRepository.Load();
+    }
+
+    public void SaveAll()
+    {
+        foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
         {
-            data.SetDefaultData();
+            ResourceData.Resources[type] = (float)ResourceManager.Instance.GetResource(type);
         }
+
+        _resourceRepository.Save(ResourceData);
+        _upgradeRepository.Save(UpgradeData);
     }
 
-    public void LoadUserData()
+    public void SaveResource()
     {
-        if (ExistsSavedData)
+        foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
         {
-            foreach (var data in UserDataList)
-            {
-                data.LoadData();
-            }
+            ResourceData.Resources[type] = (float)ResourceManager.Instance.GetResource(type);
         }
+        _resourceRepository.Save(ResourceData);
     }
 
-    public void SaveUserData()
+    public void SaveUpgrade()
     {
-        bool hasError = false;
-
-        foreach (var data in UserDataList)
-        {
-            if (false == data.SaveData())
-            {
-                hasError = true;
-                break;
-            }
-
-            if (hasError == false)
-            {
-                PlayerPrefs.SetInt(nameof(ExistsSavedData), 1);
-                PlayerPrefs.Save();
-
-                ExistsSavedData = true;
-            }
-        }
+        _upgradeRepository.Save(UpgradeData);
     }
 
-    public T GetUserData<T>() where T : class, IUserData
+    public void DeleteAll()
     {
-        return UserDataList.OfType<T>().FirstOrDefault();
+        _resourceRepository.Delete();
+        _upgradeRepository.Delete();
+        SetDefaultAll();
     }
 }

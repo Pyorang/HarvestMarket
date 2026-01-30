@@ -34,7 +34,7 @@ public class UpgradeManager : MonoBehaviour
 
     private void LoadUpgradeData()
     {
-        _upgradeData = UserDataManager.Instance.GetUserData<PlayerUpgradeData>();
+        _upgradeData = UserDataManager.Instance.UpgradeData;
 
         if (_upgradeData == null)
             Debug.LogError("[UpgradeManager] PlayerUpgradeData not found in UserDataManager!");
@@ -137,7 +137,7 @@ public class UpgradeManager : MonoBehaviour
 
         upgrade.LevelUp();
         _upgradeData.SetLevel(type, upgrade.CurrentLevel);
-        UserDataManager.Instance.SaveUserData();
+        UserDataManager.Instance.SaveUpgrade();
 
         OnUpgraded?.Invoke(type, upgrade.CurrentLevel);
         return true;
