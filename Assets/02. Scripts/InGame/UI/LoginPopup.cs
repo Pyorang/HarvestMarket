@@ -1,5 +1,3 @@
-using System;
-using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,7 +24,7 @@ public class LoginPopup : MonoBehaviour
     [SerializeField] private Button _registerButton;
 
     [Header("Input Fields")]
-    [SerializeField] private TMP_InputField _idInputField;
+    [SerializeField] private TMP_InputField _emailInputField;
     [SerializeField] private TMP_InputField _passwordInputField;
     [SerializeField] private TMP_InputField _passwordConfirmInputField;
 
@@ -34,6 +32,9 @@ public class LoginPopup : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _messageText;
 
     private PopupMode _currentMode = PopupMode.Login;
+
+    private readonly AccountEmailSpecification _emailSpec = new AccountEmailSpecification();
+    private readonly AccountPasswordSpecification _passwordSpec = new AccountPasswordSpecification();
 
     private void Start()
     {
@@ -80,7 +81,7 @@ public class LoginPopup : MonoBehaviour
 
     private void ClearInputs()
     {
-        _idInputField.text = string.Empty;
+        _emailInputField.text = string.Empty;
         _passwordInputField.text = string.Empty;
         _passwordConfirmInputField.text = string.Empty;
         _messageText.text = string.Empty;
@@ -88,116 +89,76 @@ public class LoginPopup : MonoBehaviour
 
     private void Login()
     {
-        string id = _idInputField.text;
+        string email = _emailInputField.text;
         string password = _passwordInputField.text;
 
-        if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(password))
-        {
-            _messageText.text = "Please enter your ID and password.";
-            return;
-        }
+        AuthResult result = AccountManager.Instance.TryLogin(email, password);
 
-        if (!PlayerPrefs.HasKey(id))
+        if (result.Success)
         {
-            _messageText.text = "Please check your ID and password.";
-            return;
+            Close();
+            SceneManager.LoadScene("InGame");
         }
-
-        string storedHash = PlayerPrefs.GetString(id);
-        if (!PasswordHasher.Verify(password, storedHash))
+        else
         {
-            _messageText.text = "Please check your ID and password.";
-            return;
+            _messageText.text = result.ErrorMessage;
         }
-
-        Close();
-        SceneManager.LoadScene("InGame");
     }
 
     private void Register()
     {
-        string id = _idInputField.text;
+        string email = _emailInputField.text;
         string password = _passwordInputField.text;
         string passwordConfirm = _passwordConfirmInputField.text;
 
-        // Empty value check
-        if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(password))
+        AuthResult result = AccountManager.Instance.TryRegister(email, password, passwordConfirm);
+
+        if (result.Success)
         {
-            _messageText.text = "Please enter your ID and password.";
-            return;
+            _messageText.text = "Registration completed successfully.";
+            SetMode(PopupMode.Login);
+            _emailInputField.text = email;
         }
-
-        // Email format
-        if (!Regex.IsMatch(id, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+        else
         {
-            _messageText.text = "ID must be in email format.";
-            return;
+            _messageText.text = result.ErrorMessage;
         }
-
-        // Password validation
-        if (!ValidatePassword(password, out string errorMessage))
-        {
-            _messageText.text = errorMessage;
-            return;
-        }
-
-        // Password confirm
-        if (string.IsNullOrEmpty(passwordConfirm) || password != passwordConfirm)
-        {
-            _messageText.text = "Password confirmation does not match.";
-            return;
-        }
-
-        // Duplicate check
-        if (PlayerPrefs.HasKey(id))
-        {
-            _messageText.text = "This ID is already in use.";
-            return;
-        }
-
-        // Registration complete
-        string hashedPassword = PasswordHasher.Hash(password);
-        PlayerPrefs.SetString(id, hashedPassword);
-        PlayerPrefs.Save();
-
-        _messageText.text = "Registration completed successfully.";
-        SetMode(PopupMode.Login);
-        _idInputField.text = id;
     }
 
-    private bool ValidatePassword(string password, out string errorMessage)
+    public void OnEmailTextChange(string email)
     {
-        if (!Regex.IsMatch(password, @"^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':""\\|,.<>\/?]+$"))
+        if (_emailSpec.IsSatisfiedBy(email))
         {
-            errorMessage = "Password can only contain letters, numbers, and special characters.";
-            return false;
+            _messageText.text = "Valid email format!";
         }
-
-        if (password.Length < 7 || password.Length > 20)
+        else
         {
-            errorMessage = "Password must be between 7 and 20 characters.";
-            return false;
+            _messageText.text = _emailSpec.ErrorMessage;
         }
+        UpdateButtonState();
+    }
 
-        if (!Regex.IsMatch(password, @"[A-Z]"))
+    public void OnPasswordTextChange(string password)
+    {
+        if (_passwordSpec.IsSatisfiedBy(password))
         {
-            errorMessage = "Password must contain at least one uppercase letter.";
-            return false;
+            _messageText.text = "Valid password format!";
         }
-
-        if (!Regex.IsMatch(password, @"[a-z]"))
+        else
         {
-            errorMessage = "Password must contain at least one lowercase letter.";
-            return false;
+            _messageText.text = _passwordSpec.ErrorMessage;
         }
+        UpdateButtonState();
+    }
 
-        if (!Regex.IsMatch(password, @"[!@#$%^&*()_+\-=\[\]{};':""\\|,.<>\/?]"))
-        {
-            errorMessage = "Password must contain at least one special character.";
-            return false;
-        }
+    private void UpdateButtonState()
+    {
+        string email = _emailInputField.text;
+        string password = _passwordInputField.text;
 
-        errorMessage = string.Empty;
-        return true;
+        bool isValid = _emailSpec.IsSatisfiedBy(email) && _passwordSpec.IsSatisfiedBy(password);
+
+        _loginButton.interactable = isValid;
+        _registerButton.interactable = isValid;
     }
 }

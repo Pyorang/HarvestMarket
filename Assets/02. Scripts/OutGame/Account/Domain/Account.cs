@@ -1,53 +1,25 @@
-using System.Text.RegularExpressions;
-using UnityEngine;
-
-// 객체 : 어떤 대상 / 개념에 대한 속성 (데이터) + 기능 (메서드)
-// 도메인 : 어떤 개념에 집중해서 객체로 표현한 것
-
-public class Account : MonoBehaviour
+public class Account
 {
-    // 이메일
-    // 비밀 번호
     public readonly string Email;
     public readonly string Password;
 
-    private static readonly Regex EmailRegex = new Regex(
-        @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-        RegexOptions.Compiled | RegexOptions.IgnoreCase
-    );
-
     public Account(string email, string password)
     {
-        if(string.IsNullOrEmpty(email))
+        // Email validation
+        var emailSpec = new AccountEmailSpecification();
+        if (!emailSpec.IsSatisfiedBy(email))
         {
-            throw new System.ArgumentException("Email cannot be empty.");
+            throw new System.ArgumentException(emailSpec.ErrorMessage);
         }
 
-        if(!EmailRegex.IsMatch(email))
+        // Password validation
+        var passwordSpec = new AccountPasswordSpecification();
+        if (!passwordSpec.IsSatisfiedBy(password))
         {
-            throw new System.ArgumentException("Invalid email format.");
-        }
-
-        if(string.IsNullOrEmpty(password))
-        {
-            throw new System.ArgumentException("Password cannot be empty.");
-        }
-
-        if(password.Length < 6 || password.Length > 15)
-        {
-            throw new System.ArgumentException("Password must be between 6 and 15 characters.");
+            throw new System.ArgumentException(passwordSpec.ErrorMessage);
         }
 
         Email = email;
         Password = password;
     }
-
-    // 이메일 규칙 : 올바른 이메일이어야 한다.
-    // 0. 비어있으면 안된다.
-    // 1. 올바른 이메일이어야한다.
-    // 2. 동일한 이메일이면 중복 안된다.
-
-    // 비밀번호 규칙
-    // 1. 6자리 이상 15자 이하 (대문자 1개 이상 포함. 특수문자 1개 이상 포함)
-    // 2. 비어있으면 안된다.
 }

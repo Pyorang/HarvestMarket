@@ -3697,8 +3697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7581b9012c73a6441b3d07f66ed294cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Farm
-  _minReward: 1
-  _maxReward: 999999999
   _resourceType: 1
   _animals:
   - {fileID: 73609646}
@@ -4063,8 +4061,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7581b9012c73a6441b3d07f66ed294cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Farm
-  _minReward: 1
-  _maxReward: 999999999
   _resourceType: 2
   _animals:
   - {fileID: 679824504}
@@ -9166,8 +9162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7581b9012c73a6441b3d07f66ed294cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Farm
-  _minReward: 1
-  _maxReward: 999999999
   _resourceType: 0
   _animals:
   - {fileID: 196068993}
