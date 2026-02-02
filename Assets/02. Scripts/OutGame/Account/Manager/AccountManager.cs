@@ -5,7 +5,9 @@ public class AccountManager : MonoBehaviour
 {
     public static AccountManager Instance { get; private set; }
 
+    private IAccountRepository _repository;
     private Account _currentAccount = null;
+
     public bool IsLoggedIn => _currentAccount != null;
     public string Email => _currentAccount?.Email ?? string.Empty;
 
@@ -14,6 +16,7 @@ public class AccountManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            _repository = new LocalAccountRepository();
         }
         else
         {
@@ -26,17 +29,13 @@ public class AccountManager : MonoBehaviour
         try
         {
             var account = new Account(email, password);
+            var stored = _repository.FindByEmail(email);
 
-            if (!PlayerPrefs.HasKey(email))
-            {
+            if (stored == null)
                 return AuthResult.Fail("Please check your email and password.");
-            }
 
-            string storedHash = PlayerPrefs.GetString(email);
-            if (!PasswordHasher.Verify(password, storedHash))
-            {
+            if (!PasswordHasher.Verify(password, stored.HashedPassword))
                 return AuthResult.Fail("Please check your email and password.");
-            }
 
             _currentAccount = account;
             return AuthResult.Ok(account);
@@ -50,22 +49,17 @@ public class AccountManager : MonoBehaviour
     public AuthResult TryRegister(string email, string password, string passwordConfirm)
     {
         if (password != passwordConfirm)
-        {
             return AuthResult.Fail("Password confirmation does not match.");
-        }
 
         try
         {
             var account = new Account(email, password);
 
-            if (PlayerPrefs.HasKey(email))
-            {
+            if (_repository.Exists(email))
                 return AuthResult.Fail("This email is already in use.");
-            }
 
-            string hashedPassword = PasswordHasher.Hash(password);
-            PlayerPrefs.SetString(email, hashedPassword);
-            PlayerPrefs.Save();
+            var data = new AccountData(email, PasswordHasher.Hash(password));
+            _repository.Save(data);
 
             return AuthResult.Ok(account);
         }
