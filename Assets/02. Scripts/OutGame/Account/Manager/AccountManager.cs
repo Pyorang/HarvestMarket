@@ -38,6 +38,8 @@ public class AccountManager : MonoBehaviour
                 return AuthResult.Fail("Please check your email and password.");
 
             _currentAccount = account;
+            UserDataManager.Instance.Initialize(email);
+
             return AuthResult.Ok(account);
         }
         catch (ArgumentException e)
@@ -60,6 +62,8 @@ public class AccountManager : MonoBehaviour
 
             var data = new AccountData(email, PasswordHasher.Hash(password));
             _repository.Save(data);
+
+            UserDataManager.Instance.Initialize(email);
 
             return AuthResult.Ok(account);
         }

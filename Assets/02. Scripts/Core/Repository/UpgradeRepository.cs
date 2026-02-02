@@ -3,15 +3,22 @@ using UnityEngine;
 
 public class UpgradeRepository : IRepository<PlayerUpgradeData>
 {
-    private const string KEY_PREFIX = "Upgrade_";
-    private const string EXISTS_KEY = "Upgrade_Initialized";
+    private readonly string _keyPrefix;
+    private readonly string _existsKey;
+
+    public UpgradeRepository(string userKey = "")
+    {
+        var prefix = string.IsNullOrEmpty(userKey) ? "" : userKey + "_";
+        _keyPrefix = prefix + "Upgrade_";
+        _existsKey = prefix + "Upgrade_Initialized";
+    }
 
     public PlayerUpgradeData Load()
     {
         var data = new PlayerUpgradeData();
         foreach (UpgradeType type in Enum.GetValues(typeof(UpgradeType)))
         {
-            data.UpgradeLevels[type] = PlayerPrefs.GetInt($"{KEY_PREFIX}{type}", 0);
+            data.UpgradeLevels[type] = PlayerPrefs.GetInt($"{_keyPrefix}{type}", 0);
         }
         return data;
     }
@@ -20,9 +27,9 @@ public class UpgradeRepository : IRepository<PlayerUpgradeData>
     {
         foreach (var pair in data.UpgradeLevels)
         {
-            PlayerPrefs.SetInt($"{KEY_PREFIX}{pair.Key}", pair.Value);
+            PlayerPrefs.SetInt($"{_keyPrefix}{pair.Key}", pair.Value);
         }
-        PlayerPrefs.SetInt(EXISTS_KEY, 1);
+        PlayerPrefs.SetInt(_existsKey, 1);
         PlayerPrefs.Save();
     }
 
@@ -30,11 +37,11 @@ public class UpgradeRepository : IRepository<PlayerUpgradeData>
     {
         foreach (UpgradeType type in Enum.GetValues(typeof(UpgradeType)))
         {
-            PlayerPrefs.DeleteKey($"{KEY_PREFIX}{type}");
+            PlayerPrefs.DeleteKey($"{_keyPrefix}{type}");
         }
-        PlayerPrefs.DeleteKey(EXISTS_KEY);
+        PlayerPrefs.DeleteKey(_existsKey);
         PlayerPrefs.Save();
     }
 
-    public bool Exists() => PlayerPrefs.HasKey(EXISTS_KEY);
+    public bool Exists() => PlayerPrefs.HasKey(_existsKey);
 }

@@ -13,9 +13,12 @@ public class UserDataManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
 
-        _resourceRepository = new ResourceRepository();
-        _upgradeRepository = new UpgradeRepository();
+    public void Initialize(string email)
+    {
+        _resourceRepository = new ResourceRepository(email);
+        _upgradeRepository = new UpgradeRepository(email);
 
         if (_resourceRepository.Exists())
         {
