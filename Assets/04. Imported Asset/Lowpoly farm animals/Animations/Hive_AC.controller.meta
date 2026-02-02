@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7d1dd7c952817dc4a9c2d16369675115
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 180305
+  packageName: Lowpoly farm animals
+  packageVersion: 1.0
+  assetPath: Assets/Lowpoly farm animals/Animations/Hive_AC.controller
+  uploadId: 393878
