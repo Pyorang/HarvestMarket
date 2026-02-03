@@ -1,168 +1,242 @@
-using Firebase;
-
-using Firebase.Auth;
-
-using Firebase.Extensions;
-
-using JetBrains.Annotations;
-
+using System.Collections.Generic;
 using UnityEngine;
-
-
+using Firebase;
+using Firebase.Auth;
+using Firebase.Extensions;
+using Firebase.Firestore;
+using TMPro;
+using Cysharp.Threading.Tasks;
 
 public class FirebaseTutorial : MonoBehaviour
-
 {
-
-    // _app : 파이어베이스에 접근할 수 있는 접근자
-
     private FirebaseApp _app = null;
-
-
-
     private FirebaseAuth _auth = null;
+    private FirebaseFirestore _db = null;
 
+    private TextMeshProUGUI _progressText;
+    [SerializeField] private TMP_Text _statusText;
 
-
-    private void Start()
-
+    private async void Start()
     {
+        await InitializeFirebaseAsync();
+        UpdateStatus("1. Firebase 초기화 완료");
 
-        // CheckAndFixDependenciesAsync : 잘 체크 되었는가? 의존성이 잘 매칭 되어있는가? (Async : 비동기 처리)
+        Logout();
+        UpdateStatus("2. 로그아웃 완료");
 
-        // ContinueWithOnMainThread : 콜백 함수 -> 특정 이벤트가 발생하고 나면 자동으로 호출되는 함수
+        await LoginAsync("hongil@skku.re.kr", "12345678");
+        UpdateStatus("3. 로그인 완료");
 
-        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        await SaveDogAsync();
+        UpdateStatus("4. 강아지 추가 완료");
+    }
 
+    private void UpdateStatus(string message)
+    {
+        if (_statusText != null)
         {
-
-            if (task.Result == DependencyStatus.Available)
-
-            {
-
-                // 1. 파이어베이스 연결에 성공했다면
-
-                _app = FirebaseApp.DefaultInstance;   // 파이어베이스 앱   모듈 가져오기
-
-                _auth = FirebaseAuth.DefaultInstance; // 파이어베이스 인증 모듈 가져오기
-
-                Debug.Log("초기화 성공");
-
-            }
-
-            else
-
-            {
-
-                Debug.LogError("초기화 실패" + task.Result);
-
-            }
-
-        });
-
+            _statusText.text = message;
+        }
+        Debug.Log(message);
     }
 
-    public void Register(string email, string password)
-
+    private async UniTask InitializeFirebaseAsync()
     {
+        var result = await FirebaseApp.CheckAndFixDependenciesAsync();
 
-        // 이메일과 패스워드로 회원가입을 시도
-
-        _auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
-
-            if (task.IsCanceled)
-
-            {
-
-                Debug.LogError("회원가입이 취소 되었습니다.");
-
-                return;
-
-            }
-
-            if (task.IsFaulted)
-
-            {
-
-                Debug.LogError("회원가입이 실패했습니다. " + task.Exception);
-
-                return;
-
-            }
-
-
-
-            // Firebase user has been created.
-
-            Firebase.Auth.AuthResult result = task.Result;
-
-            Debug.LogFormat("회원가입에 성공했습니다. : {0} ({1})", result.User.DisplayName, result.User.UserId);
-
-        });
-
-    }
-
-
-
-    public void Login(string email, string password)
-    {
-        _auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
-            if (task.IsCanceled)
-            {
-                Debug.LogError("로그인이 취소 되었습니다.");
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Debug.LogError("로그인이 실패했습니다. " + task.Exception);
-                return;
-            }
-
-            Firebase.Auth.AuthResult result = task.Result;
-            Debug.LogFormat("로그인에 성공했습니다. : {0} ({1})", result.User.DisplayName, result.User.UserId);
-        });
-    }
-
-
-
-public void CheckLoginStatus()
-    {
-        FirebaseUser user = _auth.CurrentUser;
-        if (user != null)
+        if (result == DependencyStatus.Available)
         {
-            Debug.LogFormat("현재 로그인된 유저: {0} ({1})", user.DisplayName, user.UserId);
-            Debug.LogFormat("이메일: {0}, 이메일 인증 여부: {1}", user.Email, user.IsEmailVerified);
+            _app = FirebaseApp.DefaultInstance;
+            _auth = FirebaseAuth.DefaultInstance;
+            _db = FirebaseFirestore.DefaultInstance;
+            Debug.Log("Firebase 초기화 성공!");
         }
         else
         {
-            Debug.Log("현재 로그인된 유저가 없습니다.");
+            Debug.LogError("Firebase 초기화 실패: " + result);
         }
     }
 
-public void Logout()
+
+    private void Register(string email, string password)
+    {
+        _auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task => {
+            if (task.IsCanceled || task.IsFaulted)
+            {
+                Debug.LogError("회원가입이 실패했습니다: " + task.Exception);
+                return;
+            }
+
+            Firebase.Auth.AuthResult result = task.Result;
+            Debug.LogFormat("회원가입에 성공했습니다.: {0} ({1})", result.User.DisplayName, result.User.UserId);
+        });
+    }
+
+    private async UniTask LoginAsync(string email, string password)
+    {
+        try
+        {
+            var result = await _auth.SignInWithEmailAndPasswordAsync(email, password);
+            Debug.LogFormat("로그인 성공!: {0} ({1})", result.User.Email, result.User.UserId);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("로그인 실패: " + e.Message);
+        }
+    }
+
+    private void Logout()
     {
         _auth.SignOut();
-        Debug.Log("로그아웃 되었습니다.");
+        Debug.Log("로그아웃 성공!");
     }
+
+    private void CheckLoginStatus()
+    {
+        FirebaseUser user = _auth.CurrentUser;
+        if (user == null)
+        {
+            Debug.Log("로그인 안됨");
+        }
+        else
+        {
+            Debug.LogFormat("로그인 중: {0} ({1})", user.Email, user.UserId);
+        }
+    }
+
+    private async UniTask SaveDogAsync()
+    {
+        try
+        {
+            Dog dog = new Dog("소똥이", 4);
+            var docRef = await _db.Collection("Dogs").AddAsync(dog);
+            Debug.Log("저장 성공! 문서 ID: " + docRef.Id);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("저장 실패: " + e.Message);
+        }
+    }
+
+    private void LoadMyDog()
+    {
+        _db.Collection("Dogs").Document("홍일이 개").GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompletedSuccessfully)
+            {
+                var snapshot = task.Result;
+                if (snapshot.Exists)
+                {
+                    Dog myDog = snapshot.ConvertTo<Dog>();
+                    Debug.Log($"{myDog.Name}({myDog.Age})");
+                }
+                else
+                {
+                    Debug.LogError("데이터가 없습니다.");
+                }
+            }
+            else
+            {
+                Debug.LogError("불러오기 실패: " + task.Exception);
+            }
+        });
+
+    }
+
+    private void LoadDogs()
+    {
+        _db.Collection("Dogs").GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompletedSuccessfully)
+            {
+                var snapshots = task.Result;
+                Debug.Log("강아지들-------------------------------------------");
+                foreach (DocumentSnapshot snapshot in snapshots.Documents)
+                {
+                    Dog myDog = snapshot.ConvertTo<Dog>();
+                    Debug.Log($"{myDog.Name}({myDog.Age})");
+                }
+
+                Debug.LogError("불러오기 성공!");
+            }
+            else
+            {
+                Debug.LogError("불러오기 실패: " + task.Exception);
+            }
+        });
+    }
+
+    private void DeleteDogs()
+    {
+        // 목표: 소똥이들 삭제
+        _db.Collection("Dogs").WhereEqualTo("Name", "소똥이").GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompletedSuccessfully)
+            {
+                var snapshots = task.Result;
+                Debug.Log("강아지들-------------------------------------------");
+                foreach (DocumentSnapshot snapshot in snapshots.Documents)
+                {
+                    Dog myDog = snapshot.ConvertTo<Dog>();
+                    if (myDog.Name == "소똥이")
+                    {
+                        _db.Collection("Dogs").Document(myDog.Id).DeleteAsync().ContinueWithOnMainThread(task =>
+                        {
+                            if (task.IsCompletedSuccessfully)
+                            {
+                                Debug.Log("데이터가 삭제됐습니다.");
+                            }
+                        });
+                    }
+                }
+
+                Debug.LogError("불러오기 성공!");
+            }
+            else
+            {
+                Debug.LogError("불러오기 실패: " + task.Exception);
+            }
+        });
+    }
+
 
     private void Update()
     {
         if (_app == null) return;
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Register("sudangi143@gmail.com", "Sudangi86@");
+            Register("hongil@skku.re.kr", "12345678");
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Login("sudangi143@gmail.com", "Sudangi86@");
+            LoginAsync("hongil@skku.re.kr", "12345678").Forget();
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             Logout();
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             CheckLoginStatus();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            SaveDogAsync().Forget();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            LoadMyDog();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            LoadDogs();
         }
     }
 
