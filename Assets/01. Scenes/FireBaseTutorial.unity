@@ -421,6 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a92a857870196f74698192d8d197bcc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FirebaseTutorial
+  _statusText: {fileID: 1141612484}
 --- !u!4 &1081476383
 Transform:
   m_ObjectHideFlags: 0
