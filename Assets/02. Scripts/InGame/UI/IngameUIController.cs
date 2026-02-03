@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class IngameUIController : MonoBehaviour
 {
     [Header("UI References")]
     [Space]
