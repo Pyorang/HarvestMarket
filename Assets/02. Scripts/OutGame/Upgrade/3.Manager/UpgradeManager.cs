@@ -7,10 +7,12 @@ public class UpgradeManager : MonoBehaviour
     public static UpgradeManager Instance { get; private set; }
 
     private Dictionary<UpgradeType, Upgrade> _upgrades = new();
-
     private PlayerUpgradeData _upgradeData;
 
+    public bool IsInitialized { get; private set; }
+
     public static event Action<UpgradeType, int> OnUpgraded;
+    public static event Action OnInitialized;
 
     private void Awake()
     {
@@ -37,87 +39,44 @@ public class UpgradeManager : MonoBehaviour
         _upgradeData = UserDataManager.Instance.UpgradeData;
 
         if (_upgradeData == null)
-            Debug.LogError("[UpgradeManager] PlayerUpgradeData not found in UserDataManager!");
+            Debug.LogError("[UpgradeManager] PlayerUpgradeData not found!");
     }
 
     private void InitializeUpgrades()
     {
-        _upgrades[UpgradeType.ChickenCoop] = new Upgrade(
-            type: UpgradeType.ChickenCoop,
-            name: "Chicken Coop",
-            description: "+1 Chicken (+0.5 Eggs/sec)",
-            maxLevel: 100,
-            baseCost: 50f,
-            costMultiplier: 1.15f,
-            baseValue: 0f,
-            valueMultiplier: 0.5f,
-            currentLevel: _upgradeData.GetLevel(UpgradeType.ChickenCoop)
-        );
+        UpgradeSpecLoader.LoadAsync(specs =>
+        {
+            foreach (var spec in specs)
+            {
+                int currentLevel = _upgradeData?.GetLevel(spec.Type) ?? 0;
 
-        _upgrades[UpgradeType.Pigpen] = new Upgrade(
-            type: UpgradeType.Pigpen,
-            name: "Pigpen",
-            description: "+1 Pig (+0.2 Meat/sec)",
-            maxLevel: 100,
-            baseCost: 300f,
-            costMultiplier: 1.15f,
-            baseValue: 0f,
-            valueMultiplier: 0.2f,
-            currentLevel: _upgradeData.GetLevel(UpgradeType.Pigpen)
-        );
+                _upgrades[spec.Type] = new Upgrade(
+                    type: spec.Type,
+                    name: spec.Name,
+                    description: spec.Description,
+                    maxLevel: spec.MaxLevel,
+                    baseCost: spec.BaseCost,
+                    costMultiplier: spec.CostMultiplier,
+                    baseValue: spec.BaseValue,
+                    valueMultiplier: spec.ValueMultiplier,
+                    currentLevel: currentLevel
+                );
+            }
 
-        _upgrades[UpgradeType.CattleBarn] = new Upgrade(
-            type: UpgradeType.CattleBarn,
-            name: "Cattle Barn",
-            description: "+1 Cow (+0.08 Milk/sec)",
-            maxLevel: 100,
-            baseCost: 1500f,
-            costMultiplier: 1.15f,
-            baseValue: 0f,
-            valueMultiplier: 0.08f,
-            currentLevel: _upgradeData.GetLevel(UpgradeType.CattleBarn)
-        );
-
-        _upgrades[UpgradeType.EggBasket] = new Upgrade(
-            type: UpgradeType.EggBasket,
-            name: "Egg Basket",
-            description: "+1 Egg per click",
-            maxLevel: 100,
-            baseCost: 30f,
-            costMultiplier: 1.20f,
-            baseValue: 1f,
-            valueMultiplier: 1f,
-            currentLevel: _upgradeData.GetLevel(UpgradeType.EggBasket)
-        );
-
-        _upgrades[UpgradeType.ButcherKnife] = new Upgrade(
-            type: UpgradeType.ButcherKnife,
-            name: "Butcher Knife",
-            description: "+1 Meat per click",
-            maxLevel: 100,
-            baseCost: 200f,
-            costMultiplier: 1.20f,
-            baseValue: 1f,
-            valueMultiplier: 1f,
-            currentLevel: _upgradeData.GetLevel(UpgradeType.ButcherKnife)
-        );
-
-        _upgrades[UpgradeType.MilkBucket] = new Upgrade(
-            type: UpgradeType.MilkBucket,
-            name: "Milk Bucket",
-            description: "+1 Milk per click",
-            maxLevel: 100,
-            baseCost: 1000f,
-            costMultiplier: 1.20f,
-            baseValue: 1f,
-            valueMultiplier: 1f,
-            currentLevel: _upgradeData.GetLevel(UpgradeType.MilkBucket)
-        );
+            IsInitialized = true;
+            OnInitialized?.Invoke();
+            Debug.Log($"[UpgradeManager] Loaded {_upgrades.Count} upgrades from CSV");
+        });
     }
 
     public Upgrade GetUpgrade(UpgradeType type)
     {
         return _upgrades.TryGetValue(type, out var upgrade) ? upgrade : null;
+    }
+
+    public IEnumerable<Upgrade> GetAllUpgrades()
+    {
+        return _upgrades.Values;
     }
 
     public bool TryUpgrade(UpgradeType type)

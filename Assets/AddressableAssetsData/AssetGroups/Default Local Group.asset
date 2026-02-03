@@ -30,6 +30,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4155a80a6db6c3c45acbdd9f1bcdad81
+    m_Address: UpgradeData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 455d9c7bb6522e141ac39ad47e82c500
     m_Address: Audio/Farm1
     m_ReadOnly: 0
@@ -67,6 +72,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e65fd79b7437bb64da83a64a47a23e74
     m_Address: Audio/Fever
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f74da172bbf09c74b8e949acc4ccec0b
+    m_Address: UpgradeData
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

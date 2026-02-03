@@ -1,0 +1,7 @@
+Type,Name,Description,MaxLevel,BaseCost,CostMultiplier,BaseValue,ValueMultiplier
+ChickenCoop,Chicken Coop,+1 Chicken (+0.5 Eggs/sec),100,50,1.15,0,0.5
+Pigpen,Pigpen,+1 Pig (+0.2 Meat/sec),100,300,1.15,0,0.2
+CattleBarn,Cattle Barn,+1 Cow (+0.08 Milk/sec),100,1500,1.15,0,0.08
+EggBasket,Egg Basket,+1 Egg per click,100,30,1.2,1,1
+ButcherKnife,Butcher Knife,+1 Meat per click,100,200,1.2,1,1
+MilkBucket,Milk Bucket,+1 Milk per click,100,1000,1.2,1,1

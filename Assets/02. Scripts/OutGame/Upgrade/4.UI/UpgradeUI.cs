@@ -15,18 +15,44 @@ public class UpgradeUI : MonoBehaviour
 
     private Upgrade _upgrade;
 
+    private void Start()
+    {
+        if (UpgradeManager.Instance.IsInitialized)
+        {
+            InitializeUI();
+        }
+        else
+        {
+            UpgradeManager.OnInitialized += InitializeUI;
+        }
+    }
+
     private void OnEnable()
     {
         ResourceManager.OnResourceChanged += OnResourceChanged;
         UpgradeManager.OnUpgraded += OnUpgraded;
 
-        RefreshUI();
+        if (UpgradeManager.Instance != null && UpgradeManager.Instance.IsInitialized)
+        {
+            RefreshUI();
+        }
     }
 
     private void OnDisable()
     {
         ResourceManager.OnResourceChanged -= OnResourceChanged;
         UpgradeManager.OnUpgraded -= OnUpgraded;
+    }
+
+    private void OnDestroy()
+    {
+        UpgradeManager.OnInitialized -= InitializeUI;
+    }
+
+    private void InitializeUI()
+    {
+        UpgradeManager.OnInitialized -= InitializeUI;
+        RefreshUI();
     }
 
     private void OnResourceChanged(ResourceType type, double amount)
