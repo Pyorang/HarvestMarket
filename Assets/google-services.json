@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "44644450616",
+    "project_id": "harvest-market-2e161",
+    "storage_bucket": "harvest-market-2e161.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44644450616:android:82e84c1b04171de3c1c1cd",
+        "android_client_info": {
+          "package_name": "com.Pyorang.HarvestMarket"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHaN9DbM9hoEJyvFmcu3yMRpEzMw--LAQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
