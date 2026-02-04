@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
-public class PlayerPrefsCurrencyRepository : IRepository<CurrencyData>
+public class PlayerPrefsCurrencyRepository : ICurrencyRepository
 {
     private readonly string _keyPrefix;
     private readonly string _existsKey;
@@ -13,24 +14,26 @@ public class PlayerPrefsCurrencyRepository : IRepository<CurrencyData>
         _existsKey = prefix + "Currency_Initialized";
     }
 
-    public CurrencyData Load()
+    public UniTaskVoid Save(CurrencyData currencyData)
+    {
+        foreach (var pair in currencyData.Currencies)
+        {
+            PlayerPrefs.SetFloat($"{_keyPrefix}{pair.Key}", pair.Value);
+        }
+        PlayerPrefs.SetInt(_existsKey, 1);
+        PlayerPrefs.Save();
+        
+        return default(UniTaskVoid);
+    }
+
+    public UniTask<CurrencyData> Load()
     {
         var data = new CurrencyData();
         foreach (CurrencyType type in Enum.GetValues(typeof(CurrencyType)))
         {
             data.Currencies[type] = PlayerPrefs.GetFloat($"{_keyPrefix}{type}", 0f);
         }
-        return data;
-    }
-
-    public void Save(CurrencyData data)
-    {
-        foreach (var pair in data.Currencies)
-        {
-            PlayerPrefs.SetFloat($"{_keyPrefix}{pair.Key}", pair.Value);
-        }
-        PlayerPrefs.SetInt(_existsKey, 1);
-        PlayerPrefs.Save();
+        return UniTask.FromResult(data);
     }
 
     public void Delete()

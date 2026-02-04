@@ -1,10 +1,11 @@
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class UserDataManager : MonoBehaviour
 {
     public static UserDataManager Instance { get; private set; }
 
-    private IRepository<CurrencyData> _currencyRepository;
+    private ICurrencyRepository _currencyRepository;
     private IRepository<PlayerUpgradeData> _upgradeRepository;
 
     public CurrencyData CurrencyData { get; private set; }
@@ -15,14 +16,16 @@ public class UserDataManager : MonoBehaviour
         Instance = this;
     }
 
-    public void Initialize(string email)
+    public async UniTaskVoid Initialize(string email)
     {
         _currencyRepository = new PlayerPrefsCurrencyRepository(email);
+        // Firebase 사용시: _currencyRepository = new FirebaseCurrencyRepository();
         _upgradeRepository = new PlayerPrefsUpgradeRepository(email);
 
-        if (_currencyRepository.Exists())
+        // PlayerPrefs의 경우 Exists() 동기 메서드 사용 가능
+        if (_currencyRepository is PlayerPrefsCurrencyRepository playerPrefsRepo && playerPrefsRepo.Exists())
         {
-            LoadAll();
+            await LoadAll();
         }
         else
         {
@@ -39,9 +42,9 @@ public class UserDataManager : MonoBehaviour
         UpgradeData.SetDefault();
     }
 
-    public void LoadAll()
+    public async UniTask LoadAll()
     {
-        CurrencyData = _currencyRepository.Load();
+        CurrencyData = await _currencyRepository.Load();
         UpgradeData = _upgradeRepository.Load();
     }
 
@@ -72,7 +75,11 @@ public class UserDataManager : MonoBehaviour
 
     public void DeleteAll()
     {
-        _currencyRepository.Delete();
+        // PlayerPrefs의 경우만 Delete 메서드 사용 가능
+        if (_currencyRepository is PlayerPrefsCurrencyRepository playerPrefsRepo)
+        {
+            playerPrefsRepo.Delete();
+        }
         _upgradeRepository.Delete();
         SetDefaultAll();
     }

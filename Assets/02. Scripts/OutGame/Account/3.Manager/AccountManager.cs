@@ -46,7 +46,7 @@ public class AccountManager : MonoBehaviour
         if (result.Success)
         {
             _currentAccount = result.Account;
-            UserDataManager.Instance.Initialize(email);
+            UserDataManager.Instance.Initialize(email).Forget();
         }
 
         return result;
