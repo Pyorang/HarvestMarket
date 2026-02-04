@@ -1,7 +1,8 @@
+using Cysharp.Threading.Tasks;
+
 public interface IAccountRepository
 {
-    AccountData FindByEmail(string email);
-    void Save(AccountData data);
-    void Delete(string email);
-    bool Exists(string email);
+    UniTask<AccountResult> Register(string email, string password);
+    UniTask<AccountResult> Login(string email, string password);
+    void Logout();
 }

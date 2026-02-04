@@ -121,7 +121,6 @@ public class FeverManager : MonoBehaviour
     {
         _feverTimer -= Time.deltaTime;
 
-        // 피버 중 게이지가 서서히 줄어듦
         _currentGauge = (_feverTimer / _feverDuration) * _maxGauge;
         OnGaugeChanged?.Invoke(_currentGauge, _maxGauge);
 

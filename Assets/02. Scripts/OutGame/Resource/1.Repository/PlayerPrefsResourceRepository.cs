@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
 
-public class ResourceRepository : IRepository<ResourceData>
+public class PlayerPrefsResourceRepository : IRepository<ResourceData>
 {
     private readonly string _keyPrefix;
     private readonly string _existsKey;
 
-    public ResourceRepository(string userKey = "")
+    public PlayerPrefsResourceRepository(string userKey = "")
     {
         var prefix = string.IsNullOrEmpty(userKey) ? "" : userKey + "_";
         _keyPrefix = prefix + "Resource_";

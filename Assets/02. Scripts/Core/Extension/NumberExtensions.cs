@@ -18,7 +18,6 @@ public static class NumberExtensions
             suffixIndex++;
         }
 
-        // 1.00K, 12.3K, 123K 형태로 표시
         if (displayValue < 10)
         {
             return $"{displayValue:F2}{_suffixes[suffixIndex]}";

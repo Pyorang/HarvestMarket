@@ -30,7 +30,6 @@ public static class UpgradeSpecLoader
         var specs = new List<UpgradeSpec>();
         var lines = csvText.Split('\n');
 
-        // 첫 줄(헤더) 스킵
         for (int i = 1; i < lines.Length; i++)
         {
             var line = lines[i].Trim();

@@ -87,12 +87,12 @@ public class LoginPopup : MonoBehaviour
         _messageText.text = string.Empty;
     }
 
-    private void Login()
+    private async void Login()
     {
         string email = _emailInputField.text;
         string password = _passwordInputField.text;
 
-        AuthResult result = AccountManager.Instance.TryLogin(email, password);
+        AccountResult result = await AccountManager.Instance.TryLogin(email, password);
 
         if (result.Success)
         {
@@ -105,13 +105,13 @@ public class LoginPopup : MonoBehaviour
         }
     }
 
-    private void Register()
+    private async void Register()
     {
         string email = _emailInputField.text;
         string password = _passwordInputField.text;
         string passwordConfirm = _passwordConfirmInputField.text;
 
-        AuthResult result = AccountManager.Instance.TryRegister(email, password, passwordConfirm);
+        AccountResult result = await AccountManager.Instance.TryRegister(email, password, passwordConfirm);
 
         if (result.Success)
         {

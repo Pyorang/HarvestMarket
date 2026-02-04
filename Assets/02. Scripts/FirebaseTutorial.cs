@@ -42,7 +42,7 @@ public class FirebaseTutorial : MonoBehaviour
 
     private async UniTask InitializeFirebaseAsync()
     {
-        var result = await FirebaseApp.CheckAndFixDependenciesAsync();
+        var result = await FirebaseApp.CheckAndFixDependenciesAsync().AsUniTask();
 
         if (result == DependencyStatus.Available)
         {
@@ -76,7 +76,7 @@ public class FirebaseTutorial : MonoBehaviour
     {
         try
         {
-            var result = await _auth.SignInWithEmailAndPasswordAsync(email, password);
+            var result = await _auth.SignInWithEmailAndPasswordAsync(email, password).AsUniTask();
             Debug.LogFormat("로그인 성공!: {0} ({1})", result.User.Email, result.User.UserId);
         }
         catch (System.Exception e)
@@ -109,7 +109,7 @@ public class FirebaseTutorial : MonoBehaviour
         try
         {
             Dog dog = new Dog("소똥이", 4);
-            var docRef = await _db.Collection("Dogs").AddAsync(dog);
+            var docRef = await _db.Collection("Dogs").AddAsync(dog).AsUniTask();
             Debug.Log("저장 성공! 문서 ID: " + docRef.Id);
         }
         catch (System.Exception e)

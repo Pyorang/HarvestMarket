@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
 
-public class UpgradeRepository : IRepository<PlayerUpgradeData>
+public class PlayerPrefsUpgradeRepository : IRepository<PlayerUpgradeData>
 {
     private readonly string _keyPrefix;
     private readonly string _existsKey;
 
-    public UpgradeRepository(string userKey = "")
+    public PlayerPrefsUpgradeRepository(string userKey = "")
     {
         var prefix = string.IsNullOrEmpty(userKey) ? "" : userKey + "_";
         _keyPrefix = prefix + "Upgrade_";

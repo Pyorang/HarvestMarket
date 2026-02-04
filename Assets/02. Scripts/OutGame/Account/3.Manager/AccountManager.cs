@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class AccountManager : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class AccountManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            _repository = new LocalAccountRepository();
+            DontDestroyOnLoad(gameObject);
+            _repository = new FirebaseResourceRepository();
         }
         else
         {
@@ -24,57 +26,64 @@ public class AccountManager : MonoBehaviour
         }
     }
 
-    public AuthResult TryLogin(string email, string password)
+    public async UniTask<AccountResult> TryLogin(string email, string password)
     {
         try
         {
             var account = new Account(email, password);
-            var stored = _repository.FindByEmail(email);
-
-            if (stored == null)
-                return AuthResult.Fail("Please check your email and password.");
-
-            if (!PasswordHasher.Verify(password, stored.HashedPassword))
-                return AuthResult.Fail("Please check your email and password.");
-
-            _currentAccount = account;
-            UserDataManager.Instance.Initialize(email);
-
-            return AuthResult.Ok(account);
         }
-        catch (ArgumentException e)
+        catch (Exception e)
         {
-            return AuthResult.Fail(e.Message);
+            return new AccountResult
+            {
+                Success = false,
+                ErrorMessage = e.Message
+            };
         }
+
+        var result = await _repository.Login(email, password);
+
+        if (result.Success)
+        {
+            _currentAccount = result.Account;
+            UserDataManager.Instance.Initialize(email);
+        }
+
+        return result;
     }
 
-    public AuthResult TryRegister(string email, string password, string passwordConfirm)
+    public async UniTask<AccountResult> TryRegister(string email, string password, string passwordConfirm)
     {
         if (password != passwordConfirm)
-            return AuthResult.Fail("Password confirmation does not match.");
+        {
+            return new AccountResult
+            {
+                Success = false,
+                ErrorMessage = "비밀번호 확인이 일치하지 않습니다."
+            };
+        }
 
         try
         {
             var account = new Account(email, password);
-
-            if (_repository.Exists(email))
-                return AuthResult.Fail("This email is already in use.");
-
-            var data = new AccountData(email, PasswordHasher.Hash(password));
-            _repository.Save(data);
-
-            UserDataManager.Instance.Initialize(email);
-
-            return AuthResult.Ok(account);
         }
-        catch (ArgumentException e)
+        catch (Exception e)
         {
-            return AuthResult.Fail(e.Message);
+            return new AccountResult
+            {
+                Success = false,
+                ErrorMessage = e.Message
+            };
         }
+
+        var result = await _repository.Register(email, password);
+
+        return result;
     }
 
     public void Logout()
     {
+        _repository.Logout();
         _currentAccount = null;
     }
 }

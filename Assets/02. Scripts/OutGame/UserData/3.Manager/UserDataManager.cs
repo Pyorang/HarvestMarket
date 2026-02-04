@@ -17,8 +17,8 @@ public class UserDataManager : MonoBehaviour
 
     public void Initialize(string email)
     {
-        _resourceRepository = new ResourceRepository(email);
-        _upgradeRepository = new UpgradeRepository(email);
+        _resourceRepository = new PlayerPrefsResourceRepository(email);
+        _upgradeRepository = new PlayerPrefsUpgradeRepository(email);
 
         if (_resourceRepository.Exists())
         {
