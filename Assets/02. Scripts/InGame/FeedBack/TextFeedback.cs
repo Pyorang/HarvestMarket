@@ -43,7 +43,7 @@ public class TextFeedback : MonoBehaviour, IClickFeedback
             gainText.SetGainText(clickInfo.Amount);
 
             var icon = TextFeedbackPool.Instance.SpawnIcon(
-                clickInfo.ResourceType,
+                clickInfo.CurrencyType,
                 _iconOffset,
                 textObj.transform
             );

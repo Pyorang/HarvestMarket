@@ -1,11 +1,11 @@
 public struct ClickInfo
 {
-    public ResourceType ResourceType;
+    public CurrencyType CurrencyType;
     public double Amount;
 
-    public ClickInfo(ResourceType resourceType, double amount)
+    public ClickInfo(CurrencyType currencyType, double amount)
     {
-        ResourceType = resourceType;
+        CurrencyType = currencyType;
         Amount = amount;
     }
 }

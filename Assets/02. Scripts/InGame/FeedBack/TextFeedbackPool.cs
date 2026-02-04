@@ -9,26 +9,26 @@ public class TextFeedbackPool : MonoBehaviour
     [System.Serializable]
     public class PoolEntry
     {
-        public ResourceType resourceType;
+        public CurrencyType currencyType;
         public LeanGameObjectPool pool;
     }
 
     [Header("텍스트 풀")]
     [SerializeField] private LeanGameObjectPool _textPool;
 
-    [Header("리소스 아이콘 풀")]
+    [Header("재화 아이콘 풀")]
     [SerializeField] private PoolEntry[] _iconPoolEntries;
 
-    private Dictionary<ResourceType, LeanGameObjectPool> _iconPoolDict;
+    private Dictionary<CurrencyType, LeanGameObjectPool> _iconPoolDict;
 
     private void Awake()
     {
         Instance = this;
 
-        _iconPoolDict = new Dictionary<ResourceType, LeanGameObjectPool>();
+        _iconPoolDict = new Dictionary<CurrencyType, LeanGameObjectPool>();
         foreach (var entry in _iconPoolEntries)
         {
-            _iconPoolDict[entry.resourceType] = entry.pool;
+            _iconPoolDict[entry.currencyType] = entry.pool;
         }
     }
 
@@ -37,7 +37,7 @@ public class TextFeedbackPool : MonoBehaviour
         return _textPool.Spawn(position, Quaternion.identity);
     }
 
-    public GameObject SpawnIcon(ResourceType type, Vector3 localPosition, Transform parent)
+    public GameObject SpawnIcon(CurrencyType type, Vector3 localPosition, Transform parent)
     {
         if (_iconPoolDict.TryGetValue(type, out var pool))
         {
@@ -46,7 +46,7 @@ public class TextFeedbackPool : MonoBehaviour
             return obj;
         }
 
-        Debug.LogWarning($"Pool not found for ResourceType: {type}");
+        Debug.LogWarning($"Pool not found for CurrencyType: {type}");
         return null;
     }
 

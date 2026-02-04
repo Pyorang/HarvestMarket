@@ -1,31 +1,31 @@
 using System;
 using UnityEngine;
 
-public class PlayerPrefsResourceRepository : IRepository<ResourceData>
+public class PlayerPrefsCurrencyRepository : IRepository<CurrencyData>
 {
     private readonly string _keyPrefix;
     private readonly string _existsKey;
 
-    public PlayerPrefsResourceRepository(string userKey = "")
+    public PlayerPrefsCurrencyRepository(string userKey = "")
     {
         var prefix = string.IsNullOrEmpty(userKey) ? "" : userKey + "_";
-        _keyPrefix = prefix + "Resource_";
-        _existsKey = prefix + "Resource_Initialized";
+        _keyPrefix = prefix + "Currency_";
+        _existsKey = prefix + "Currency_Initialized";
     }
 
-    public ResourceData Load()
+    public CurrencyData Load()
     {
-        var data = new ResourceData();
-        foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))
+        var data = new CurrencyData();
+        foreach (CurrencyType type in Enum.GetValues(typeof(CurrencyType)))
         {
-            data.Resources[type] = PlayerPrefs.GetFloat($"{_keyPrefix}{type}", 0f);
+            data.Currencies[type] = PlayerPrefs.GetFloat($"{_keyPrefix}{type}", 0f);
         }
         return data;
     }
 
-    public void Save(ResourceData data)
+    public void Save(CurrencyData data)
     {
-        foreach (var pair in data.Resources)
+        foreach (var pair in data.Currencies)
         {
             PlayerPrefs.SetFloat($"{_keyPrefix}{pair.Key}", pair.Value);
         }
@@ -35,7 +35,7 @@ public class PlayerPrefsResourceRepository : IRepository<ResourceData>
 
     public void Delete()
     {
-        foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))
+        foreach (CurrencyType type in Enum.GetValues(typeof(CurrencyType)))
         {
             PlayerPrefs.DeleteKey($"{_keyPrefix}{type}");
         }

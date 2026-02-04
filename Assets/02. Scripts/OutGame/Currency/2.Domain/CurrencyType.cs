@@ -1,4 +1,4 @@
-﻿public enum ResourceType
+﻿public enum CurrencyType
 {
     Egg,
     Meat,

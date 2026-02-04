@@ -29,7 +29,7 @@ public class UpgradeUI : MonoBehaviour
 
     private void OnEnable()
     {
-        ResourceManager.OnResourceChanged += OnResourceChanged;
+        CurrencyManager.OnCurrencyChanged += OnCurrencyChanged;
         UpgradeManager.OnUpgraded += OnUpgraded;
 
         if (UpgradeManager.Instance != null && UpgradeManager.Instance.IsInitialized)
@@ -40,7 +40,7 @@ public class UpgradeUI : MonoBehaviour
 
     private void OnDisable()
     {
-        ResourceManager.OnResourceChanged -= OnResourceChanged;
+        CurrencyManager.OnCurrencyChanged -= OnCurrencyChanged;
         UpgradeManager.OnUpgraded -= OnUpgraded;
     }
 
@@ -55,9 +55,9 @@ public class UpgradeUI : MonoBehaviour
         RefreshUI();
     }
 
-    private void OnResourceChanged(ResourceType type, double amount)
+    private void OnCurrencyChanged(CurrencyType type, double amount)
     {
-        if (type == ResourceType.Gold)
+        if (type == CurrencyType.Gold)
         {
             RefreshButtonState();
         }
@@ -95,7 +95,7 @@ public class UpgradeUI : MonoBehaviour
     {
         if (_upgrade == null || _upgradeButton == null) return;
 
-        float currentGold = (float)ResourceManager.Instance.GetResource(ResourceType.Gold);
+        float currentGold = (float)CurrencyManager.Instance.GetCurrency(CurrencyType.Gold);
         _upgradeButton.interactable = _upgrade.CanUpgrade(currentGold);
     }
 
@@ -131,7 +131,7 @@ public class UpgradeUI : MonoBehaviour
     {
         if (_upgrade == null) return false;
 
-        float currentGold = (float)ResourceManager.Instance.GetResource(ResourceType.Gold);
+        float currentGold = (float)CurrencyManager.Instance.GetCurrency(CurrencyType.Gold);
         return _upgrade.CanUpgrade(currentGold);
     }
 }

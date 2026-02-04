@@ -35,14 +35,14 @@ public class FarmClicker : MonoBehaviour, IPointerDownHandler
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             double reward = _farm.ClickReward * FeverManager.Instance.BonusMultiplier;
-            ClickInfo clickInfo = new ClickInfo(_farm.Resource, reward);
+            ClickInfo clickInfo = new ClickInfo(_farm.Currency, reward);
 
             foreach (var feedback in _feedbacks)
             {
                 feedback.Play(clickInfo);
             }
 
-            ResourceManager.Instance.AddResource(_farm.Resource, reward);
+            CurrencyManager.Instance.AddCurrency(_farm.Currency, reward);
 
             _lastClickTime = Time.time;
             _pendingSave = true;

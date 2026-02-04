@@ -84,14 +84,14 @@ public class UpgradeManager : MonoBehaviour
         var upgrade = GetUpgrade(type);
         if (upgrade == null) return false;
 
-        float currentGold = (float)ResourceManager.Instance.GetResource(ResourceType.Gold);
+        float currentGold = (float)CurrencyManager.Instance.GetCurrency(CurrencyType.Gold);
 
         if (!upgrade.CanUpgrade(currentGold))
             return false;
 
         float cost = upgrade.GetCost();
 
-        if (!ResourceManager.Instance.TrySpendResource(ResourceType.Gold, cost))
+        if (!CurrencyManager.Instance.TrySpendCurrency(CurrencyType.Gold, cost))
             return false;
 
         upgrade.LevelUp();

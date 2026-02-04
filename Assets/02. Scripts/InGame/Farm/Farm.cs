@@ -3,12 +3,12 @@ using UnityEngine;
 public class Farm : MonoBehaviour
 {
     [Header("보상 종류")]
-    [SerializeField] private ResourceType _resourceType;
+    [SerializeField] private CurrencyType _currencyType;
 
     [Header("동물 오브젝트들")]
     [SerializeField] private GameObject[] _animals;
 
-    public ResourceType Resource => _resourceType;
+    public CurrencyType Currency => _currencyType;
     public GameObject[] Animals => _animals;
 
     private TextFeedback _textFeedback;
@@ -48,11 +48,11 @@ public class Farm : MonoBehaviour
 
             if (reward > 0)
             {
-                ResourceManager.Instance.AddResource(_resourceType, reward);
+                CurrencyManager.Instance.AddCurrency(_currencyType, reward);
 
                 if (_textFeedback != null)
                 {
-                    ClickInfo clickInfo = new ClickInfo(_resourceType, reward);
+                    ClickInfo clickInfo = new ClickInfo(_currencyType, reward);
                     _textFeedback.Play(clickInfo);
                 }
             }
@@ -63,22 +63,22 @@ public class Farm : MonoBehaviour
 
     private UpgradeType GetClickUpgradeType()
     {
-        return _resourceType switch
+        return _currencyType switch
         {
-            ResourceType.Egg => UpgradeType.EggBasket,
-            ResourceType.Meat => UpgradeType.ButcherKnife,
-            ResourceType.Milk => UpgradeType.MilkBucket,
+            CurrencyType.Egg => UpgradeType.EggBasket,
+            CurrencyType.Meat => UpgradeType.ButcherKnife,
+            CurrencyType.Milk => UpgradeType.MilkBucket,
             _ => UpgradeType.EggBasket
         };
     }
 
     private UpgradeType GetAutoUpgradeType()
     {
-        return _resourceType switch
+        return _currencyType switch
         {
-            ResourceType.Egg => UpgradeType.ChickenCoop,
-            ResourceType.Meat => UpgradeType.Pigpen,
-            ResourceType.Milk => UpgradeType.CattleBarn,
+            CurrencyType.Egg => UpgradeType.ChickenCoop,
+            CurrencyType.Meat => UpgradeType.Pigpen,
+            CurrencyType.Milk => UpgradeType.CattleBarn,
             _ => UpgradeType.ChickenCoop
         };
     }

@@ -4,10 +4,10 @@ public class UserDataManager : MonoBehaviour
 {
     public static UserDataManager Instance { get; private set; }
 
-    private IRepository<ResourceData> _resourceRepository;
+    private IRepository<CurrencyData> _currencyRepository;
     private IRepository<PlayerUpgradeData> _upgradeRepository;
 
-    public ResourceData ResourceData { get; private set; }
+    public CurrencyData CurrencyData { get; private set; }
     public PlayerUpgradeData UpgradeData { get; private set; }
 
     private void Awake()
@@ -17,10 +17,10 @@ public class UserDataManager : MonoBehaviour
 
     public void Initialize(string email)
     {
-        _resourceRepository = new PlayerPrefsResourceRepository(email);
+        _currencyRepository = new PlayerPrefsCurrencyRepository(email);
         _upgradeRepository = new PlayerPrefsUpgradeRepository(email);
 
-        if (_resourceRepository.Exists())
+        if (_currencyRepository.Exists())
         {
             LoadAll();
         }
@@ -32,8 +32,8 @@ public class UserDataManager : MonoBehaviour
 
     public void SetDefaultAll()
     {
-        ResourceData = new ResourceData();
-        ResourceData.SetDefault();
+        CurrencyData = new CurrencyData();
+        CurrencyData.SetDefault();
 
         UpgradeData = new PlayerUpgradeData();
         UpgradeData.SetDefault();
@@ -41,28 +41,28 @@ public class UserDataManager : MonoBehaviour
 
     public void LoadAll()
     {
-        ResourceData = _resourceRepository.Load();
+        CurrencyData = _currencyRepository.Load();
         UpgradeData = _upgradeRepository.Load();
     }
 
     public void SaveAll()
     {
-        foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
+        foreach (CurrencyType type in System.Enum.GetValues(typeof(CurrencyType)))
         {
-            ResourceData.Resources[type] = (float)ResourceManager.Instance.GetResource(type);
+            CurrencyData.Currencies[type] = (float)CurrencyManager.Instance.GetCurrency(type);
         }
 
-        _resourceRepository.Save(ResourceData);
+        _currencyRepository.Save(CurrencyData);
         _upgradeRepository.Save(UpgradeData);
     }
 
-    public void SaveResource()
+    public void SaveCurrency()
     {
-        foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
+        foreach (CurrencyType type in System.Enum.GetValues(typeof(CurrencyType)))
         {
-            ResourceData.Resources[type] = (float)ResourceManager.Instance.GetResource(type);
+            CurrencyData.Currencies[type] = (float)CurrencyManager.Instance.GetCurrency(type);
         }
-        _resourceRepository.Save(ResourceData);
+        _currencyRepository.Save(CurrencyData);
     }
 
     public void SaveUpgrade()
@@ -72,7 +72,7 @@ public class UserDataManager : MonoBehaviour
 
     public void DeleteAll()
     {
-        _resourceRepository.Delete();
+        _currencyRepository.Delete();
         _upgradeRepository.Delete();
         SetDefaultAll();
     }

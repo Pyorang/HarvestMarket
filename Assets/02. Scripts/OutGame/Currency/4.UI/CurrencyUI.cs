@@ -7,7 +7,7 @@ public class CurrencyUI : MonoBehaviour
 {
     [Header("재화량 표시 UI")]
     [Space]
-    [SerializeField] private ResourceType _resourceType = ResourceType.Egg;
+    [SerializeField] private CurrencyType _currencyType = CurrencyType.Egg;
     [SerializeField] private TextMeshProUGUI _text;
 
     private ScalePop _scalePop;
@@ -15,12 +15,12 @@ public class CurrencyUI : MonoBehaviour
     private void Awake()
     {
         _scalePop = GetComponent<ScalePop>();
-        ResourceManager.OnResourceChanged += UpdateResourceText;
+        CurrencyManager.OnCurrencyChanged += UpdateCurrencyText;
     }
 
-    public void UpdateResourceText(ResourceType type, double amount)
+    public void UpdateCurrencyText(CurrencyType type, double amount)
     {
-        if (type == _resourceType)
+        if (type == _currencyType)
         {
             _text.text = amount.ToFormattedString();
             _scalePop.Pop();
@@ -29,7 +29,7 @@ public class CurrencyUI : MonoBehaviour
 
     private void OnDisable()
     {
-        ResourceManager.OnResourceChanged -= UpdateResourceText;
+        CurrencyManager.OnCurrencyChanged -= UpdateCurrencyText;
     }
 }
 
