@@ -37,7 +37,6 @@ public class CurrencyManager : MonoBehaviour
 
     private void Start()
     {
-        // UserDataManager 초기화 완료를 기다림
         if (UserDataManager.Instance != null && UserDataManager.Instance.CurrencyData != null)
         {
             InitializeFromUserData();

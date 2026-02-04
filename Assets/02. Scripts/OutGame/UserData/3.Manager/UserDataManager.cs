@@ -40,7 +40,6 @@ public class UserDataManager : MonoBehaviour
             SetDefaultAll();
         }
         
-        // 초기화 완료 이벤트 발생
         OnDataLoaded?.Invoke();
         Debug.Log("[UserDataManager] Data loading completed, event fired");
     }
