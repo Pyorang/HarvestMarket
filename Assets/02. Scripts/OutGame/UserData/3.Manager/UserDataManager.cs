@@ -1,15 +1,15 @@
-using UnityEngine;
 using Cysharp.Threading.Tasks;
+using System;
+using UnityEngine;
 
 public class UserDataManager : MonoBehaviour
 {
     public static UserDataManager Instance { get; private set; }
 
     private ICurrencyRepository _currencyRepository;
-    private IRepository<PlayerUpgradeData> _upgradeRepository;
-
     public CurrencyData CurrencyData { get; private set; }
-    public PlayerUpgradeData UpgradeData { get; private set; }
+    
+    public static event Action OnDataLoaded;
 
     private void Awake()
     {
@@ -18,69 +18,69 @@ public class UserDataManager : MonoBehaviour
 
     public async UniTaskVoid Initialize(string email)
     {
-        _currencyRepository = new PlayerPrefsCurrencyRepository(email);
-        // Firebase 사용시: _currencyRepository = new FirebaseCurrencyRepository();
-        _upgradeRepository = new PlayerPrefsUpgradeRepository(email);
+        _currencyRepository = new FirebaseCurrencyRepository();
 
-        // PlayerPrefs의 경우 Exists() 동기 메서드 사용 가능
-        if (_currencyRepository is PlayerPrefsCurrencyRepository playerPrefsRepo && playerPrefsRepo.Exists())
+        try
         {
-            await LoadAll();
+            var existingData = await _currencyRepository.Load();
+            if (existingData != null && existingData.Currencies.Count > 0)
+            {
+                CurrencyData = existingData;
+                Debug.Log("[UserDataManager] Currency data loaded from Firebase successfully");
+            }
+            else
+            {
+                SetDefaultAll();
+                Debug.Log("[UserDataManager] No existing data, set to default");
+            }
         }
-        else
+        catch (Exception e)
         {
+            Debug.LogError($"Firebase load failed: {e.Message}");
             SetDefaultAll();
         }
+        
+        // 초기화 완료 이벤트 발생
+        OnDataLoaded?.Invoke();
+        Debug.Log("[UserDataManager] Data loading completed, event fired");
     }
 
     public void SetDefaultAll()
     {
         CurrencyData = new CurrencyData();
         CurrencyData.SetDefault();
-
-        UpgradeData = new PlayerUpgradeData();
-        UpgradeData.SetDefault();
     }
 
     public async UniTask LoadAll()
     {
         CurrencyData = await _currencyRepository.Load();
-        UpgradeData = _upgradeRepository.Load();
     }
 
     public void SaveAll()
     {
         foreach (CurrencyType type in System.Enum.GetValues(typeof(CurrencyType)))
         {
-            CurrencyData.Currencies[type] = (float)CurrencyManager.Instance.GetCurrency(type);
+            CurrencyData.SetAmount(type, (float)CurrencyManager.Instance.GetCurrency(type));
         }
 
         _currencyRepository.Save(CurrencyData);
-        _upgradeRepository.Save(UpgradeData);
     }
 
     public void SaveCurrency()
     {
         foreach (CurrencyType type in System.Enum.GetValues(typeof(CurrencyType)))
         {
-            CurrencyData.Currencies[type] = (float)CurrencyManager.Instance.GetCurrency(type);
+            CurrencyData.SetAmount(type, (float)CurrencyManager.Instance.GetCurrency(type));
         }
         _currencyRepository.Save(CurrencyData);
     }
 
-    public void SaveUpgrade()
-    {
-        _upgradeRepository.Save(UpgradeData);
-    }
-
     public void DeleteAll()
     {
-        // PlayerPrefs의 경우만 Delete 메서드 사용 가능
         if (_currencyRepository is PlayerPrefsCurrencyRepository playerPrefsRepo)
         {
             playerPrefsRepo.Delete();
         }
-        _upgradeRepository.Delete();
         SetDefaultAll();
     }
 }

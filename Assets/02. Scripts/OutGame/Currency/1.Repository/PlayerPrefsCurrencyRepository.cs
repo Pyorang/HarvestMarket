@@ -31,7 +31,7 @@ public class PlayerPrefsCurrencyRepository : ICurrencyRepository
         var data = new CurrencyData();
         foreach (CurrencyType type in Enum.GetValues(typeof(CurrencyType)))
         {
-            data.Currencies[type] = PlayerPrefs.GetFloat($"{_keyPrefix}{type}", 0f);
+            data.SetAmount(type, PlayerPrefs.GetFloat($"{_keyPrefix}{type}", 0f));
         }
         return UniTask.FromResult(data);
     }

@@ -5,18 +5,11 @@ using Firebase;
 
 public class FirebaseResourceRepository : IAccountRepository
 {
-    private FirebaseAuth _auth;
-
-    public FirebaseResourceRepository()
-    {
-        _auth = FirebaseInitializer.Instance.Auth;
-    }
-
     public async UniTask<AccountResult> Register(string email, string password)
     {
         try
         {
-            var result = await _auth.CreateUserWithEmailAndPasswordAsync(email, password).AsUniTask();
+            var result = await FirebaseInitializer.Instance.Auth.CreateUserWithEmailAndPasswordAsync(email, password).AsUniTask();
             Debug.Log($"[FirebaseAccountRepository] 회원가입 성공: {result.User.Email}");
 
             return new AccountResult
@@ -39,7 +32,7 @@ public class FirebaseResourceRepository : IAccountRepository
     {
         try
         {
-            var result = await _auth.SignInWithEmailAndPasswordAsync(email, password).AsUniTask();
+            var result = await FirebaseInitializer.Instance.Auth.SignInWithEmailAndPasswordAsync(email, password).AsUniTask();
             var account = new Account(result.User.Email, password);
             Debug.Log($"[FirebaseAccountRepository] 로그인 성공: {result.User.Email}");
 
@@ -62,7 +55,7 @@ public class FirebaseResourceRepository : IAccountRepository
 
     public void Logout()
     {
-        _auth.SignOut();
+        FirebaseInitializer.Instance.Auth.SignOut();
         Debug.Log("[FirebaseAccountRepository] 로그아웃 완료");
     }
 

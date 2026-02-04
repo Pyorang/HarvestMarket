@@ -3697,7 +3697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7581b9012c73a6441b3d07f66ed294cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Farm
-  _currencyType: 0
+  _currencyType: 1
   _animals:
   - {fileID: 73609646}
   - {fileID: 2136143130}
@@ -4061,7 +4061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7581b9012c73a6441b3d07f66ed294cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Farm
-  _currencyType: 0
+  _currencyType: 2
   _animals:
   - {fileID: 679824504}
   - {fileID: 1588023920}
@@ -12717,9 +12717,9 @@ MonoBehaviour:
   _iconPoolEntries:
   - currencyType: 0
     pool: {fileID: 1193554651}
-  - currencyType: 0
+  - currencyType: 1
     pool: {fileID: 713656375}
-  - currencyType: 0
+  - currencyType: 2
     pool: {fileID: 220820418}
 --- !u!1001 &1873309193
 PrefabInstance:

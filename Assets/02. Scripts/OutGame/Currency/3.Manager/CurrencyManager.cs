@@ -37,23 +37,42 @@ public class CurrencyManager : MonoBehaviour
 
     private void Start()
     {
-        InitializeFromUserData();
+        // UserDataManager 초기화 완료를 기다림
+        if (UserDataManager.Instance != null && UserDataManager.Instance.CurrencyData != null)
+        {
+            InitializeFromUserData();
+        }
+        else
+        {
+            UserDataManager.OnDataLoaded += InitializeFromUserData;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        UserDataManager.OnDataLoaded -= InitializeFromUserData;
     }
 
     private void InitializeFromUserData()
     {
-        var currencyData = UserDataManager.Instance.CurrencyData;
+        var currencyData = UserDataManager.Instance?.CurrencyData;
+        
+        Debug.Log($"[CurrencyManager] InitializeFromUserData called, CurrencyData is null: {currencyData == null}");
 
         if (currencyData != null)
         {
-            foreach (var pair in currencyData.Currencies)
+            Debug.Log($"[CurrencyManager] Loading currency data with {currencyData.Currencies.Count} entries");
+            foreach (CurrencyType type in Enum.GetValues(typeof(CurrencyType)))
             {
-                _currencies[pair.Key] = pair.Value;
-                OnCurrencyChanged?.Invoke(pair.Key, pair.Value);
+                double amount = currencyData.GetAmount(type);
+                _currencies[type] = amount;
+                OnCurrencyChanged?.Invoke(type, amount);
+                Debug.Log($"[CurrencyManager] Loaded {type}: {amount}");
             }
         }
         else
         {
+            Debug.LogWarning("[CurrencyManager] CurrencyData is null, setting default values");
             foreach (CurrencyType type in Enum.GetValues(typeof(CurrencyType)))
             {
                 _currencies[type] = 0;

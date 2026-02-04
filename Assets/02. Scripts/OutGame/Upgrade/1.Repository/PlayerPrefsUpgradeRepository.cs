@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
-public class PlayerPrefsUpgradeRepository : IRepository<PlayerUpgradeData>
+public class PlayerPrefsUpgradeRepository : IUpgradeRepository
 {
     private readonly string _keyPrefix;
     private readonly string _existsKey;
@@ -13,28 +14,34 @@ public class PlayerPrefsUpgradeRepository : IRepository<PlayerUpgradeData>
         _existsKey = prefix + "Upgrade_Initialized";
     }
 
-    public PlayerUpgradeData Load()
+    public async UniTask<PlayerUpgradeData> Load()
     {
+        await UniTask.Yield();
+        
         var data = new PlayerUpgradeData();
         foreach (UpgradeType type in Enum.GetValues(typeof(UpgradeType)))
         {
-            data.UpgradeLevels[type] = PlayerPrefs.GetInt($"{_keyPrefix}{type}", 0);
+            data.SetLevel(type, PlayerPrefs.GetInt($"{_keyPrefix}{type}", 0));
         }
         return data;
     }
 
-    public void Save(PlayerUpgradeData data)
+    public async UniTaskVoid Save(PlayerUpgradeData data)
     {
-        foreach (var pair in data.UpgradeLevels)
+        await UniTask.Yield();
+        
+        foreach (UpgradeType type in Enum.GetValues(typeof(UpgradeType)))
         {
-            PlayerPrefs.SetInt($"{_keyPrefix}{pair.Key}", pair.Value);
+            PlayerPrefs.SetInt($"{_keyPrefix}{type}", data.GetLevel(type));
         }
         PlayerPrefs.SetInt(_existsKey, 1);
         PlayerPrefs.Save();
     }
 
-    public void Delete()
+    public async UniTaskVoid Delete()
     {
+        await UniTask.Yield();
+        
         foreach (UpgradeType type in Enum.GetValues(typeof(UpgradeType)))
         {
             PlayerPrefs.DeleteKey($"{_keyPrefix}{type}");
