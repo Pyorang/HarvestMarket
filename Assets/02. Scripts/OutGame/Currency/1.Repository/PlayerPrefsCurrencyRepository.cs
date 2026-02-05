@@ -36,7 +36,7 @@ public class PlayerPrefsCurrencyRepository : ICurrencyRepository
         return UniTask.FromResult(data);
     }
 
-    public void Delete()
+    public UniTaskVoid Delete()
     {
         foreach (CurrencyType type in Enum.GetValues(typeof(CurrencyType)))
         {
@@ -44,6 +44,8 @@ public class PlayerPrefsCurrencyRepository : ICurrencyRepository
         }
         PlayerPrefs.DeleteKey(_existsKey);
         PlayerPrefs.Save();
+
+        return default(UniTaskVoid);
     }
 
     public bool Exists() => PlayerPrefs.HasKey(_existsKey);

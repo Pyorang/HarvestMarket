@@ -62,7 +62,12 @@ public class CurrencyManager : MonoBehaviour
 
     private void SaveData()
     {
-        UserDataManager.Instance.SaveAll();
+        var data = new CurrencyData();
+        foreach (CurrencyType type in Enum.GetValues(typeof(CurrencyType)))
+        {
+            data.SetAmount(type, (float)_currencies[type]);
+        }
+        UserDataManager.Instance.SaveCurrency(data);
         _hasChanges = false;
         _lastSaveTime = Time.time;
         Debug.Log($"[CurrencyManager] Batch save completed at {Time.time:F1}");
@@ -74,7 +79,7 @@ public class CurrencyManager : MonoBehaviour
         
         if (_hasChanges)
         {
-            UserDataManager.Instance?.SaveAll();
+            SaveData();
             Debug.Log("[CurrencyManager] Final save on destroy");
         }
     }

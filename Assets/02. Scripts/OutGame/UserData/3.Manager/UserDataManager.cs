@@ -55,31 +55,15 @@ public class UserDataManager : MonoBehaviour
         CurrencyData = await _currencyRepository.Load();
     }
 
-    public void SaveAll()
+    public void SaveCurrency(CurrencyData data)
     {
-        foreach (CurrencyType type in System.Enum.GetValues(typeof(CurrencyType)))
-        {
-            CurrencyData.SetAmount(type, (float)CurrencyManager.Instance.GetCurrency(type));
-        }
-
-        _currencyRepository.Save(CurrencyData);
-    }
-
-    public void SaveCurrency()
-    {
-        foreach (CurrencyType type in System.Enum.GetValues(typeof(CurrencyType)))
-        {
-            CurrencyData.SetAmount(type, (float)CurrencyManager.Instance.GetCurrency(type));
-        }
+        CurrencyData = data;
         _currencyRepository.Save(CurrencyData);
     }
 
     public void DeleteAll()
     {
-        if (_currencyRepository is PlayerPrefsCurrencyRepository playerPrefsRepo)
-        {
-            playerPrefsRepo.Delete();
-        }
+        _currencyRepository.Delete();
         SetDefaultAll();
     }
 }

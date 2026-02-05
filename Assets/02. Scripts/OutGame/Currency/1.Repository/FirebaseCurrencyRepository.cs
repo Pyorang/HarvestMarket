@@ -64,6 +64,26 @@ public class FirebaseCurrencyRepository : ICurrencyRepository
         }
     }
     
+    public async UniTaskVoid Delete()
+    {
+        try
+        {
+            string email = _auth.CurrentUser.Email;
+            if (string.IsNullOrEmpty(email))
+            {
+                Debug.LogError("User email is null or empty");
+                return;
+            }
+
+            await _db.Collection(CURRENCY_COLLECTION_NAME).Document(email).DeleteAsync();
+            Debug.Log("Currency 데이터 Firebase 삭제 성공");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Currency Firebase 삭제 실패: " + e.Message);
+        }
+    }
+
     private CurrencyData GetDefaultCurrencyData()
     {
         var data = new CurrencyData();
