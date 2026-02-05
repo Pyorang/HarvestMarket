@@ -7,6 +7,7 @@ public class FarmClicker : MonoBehaviour, IPointerDownHandler
     private Camera _mainCamera;
     private Farm _farm;
     private IClickFeedback[] _feedbacks;
+    private static readonly IRewardCalculator s_calculator = new UpgradeRewardCalculator();
 
     private void Awake()
     {
@@ -21,7 +22,7 @@ public class FarmClicker : MonoBehaviour, IPointerDownHandler
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            double reward = _farm.ClickReward * FeverManager.Instance.BonusMultiplier;
+            double reward = s_calculator.CalculateClickReward(_farm.Currency);
             ClickInfo clickInfo = new ClickInfo(_farm.Currency, reward);
 
             foreach (var feedback in _feedbacks)
