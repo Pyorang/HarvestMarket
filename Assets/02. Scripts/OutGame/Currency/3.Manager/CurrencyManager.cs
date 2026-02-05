@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,6 +21,10 @@ public class CurrencyManager : MonoBehaviour
 
     private Dictionary<CurrencyType, double> _currencies = new();
 
+    private bool _hasChanges = false;
+    private float _lastSaveTime = 0f;
+    private const float SAVE_INTERVAL = 5f;
+
     public static event Action<CurrencyType, double> OnCurrencyChanged;
 
     private void Awake()
@@ -28,6 +32,7 @@ public class CurrencyManager : MonoBehaviour
         if (s_instance == null)
         {
             s_instance = this;
+            _lastSaveTime = Time.time;
         }
         else if (s_instance != this)
         {
@@ -47,9 +52,31 @@ public class CurrencyManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (_hasChanges && (Time.time - _lastSaveTime) >= SAVE_INTERVAL)
+        {
+            SaveData();
+        }
+    }
+
+    private void SaveData()
+    {
+        UserDataManager.Instance.SaveAll();
+        _hasChanges = false;
+        _lastSaveTime = Time.time;
+        Debug.Log($"[CurrencyManager] Batch save completed at {Time.time:F1}");
+    }
+
     private void OnDestroy()
     {
         UserDataManager.OnDataLoaded -= InitializeFromUserData;
+        
+        if (_hasChanges)
+        {
+            UserDataManager.Instance?.SaveAll();
+            Debug.Log("[CurrencyManager] Final save on destroy");
+        }
     }
 
     private void InitializeFromUserData()
@@ -85,8 +112,11 @@ public class CurrencyManager : MonoBehaviour
     public void AddCurrency(CurrencyType type, double amount)
     {
         if(amount <= 0) return;
+        
         _currencies[type] = System.Math.Max(0, _currencies[type] + amount);
         OnCurrencyChanged?.Invoke(type, _currencies[type]);
+        
+        _hasChanges = true;
     }
 
     public bool TrySpendCurrency(CurrencyType type, double amount)
@@ -95,6 +125,9 @@ public class CurrencyManager : MonoBehaviour
         {
             _currencies[type] -= amount;
             OnCurrencyChanged?.Invoke(type, _currencies[type]);
+            
+            _hasChanges = true;
+            
             return true;
         }
         return false;
@@ -104,5 +137,16 @@ public class CurrencyManager : MonoBehaviour
     {
         _currencies[type] = System.Math.Max(0, amount);
         OnCurrencyChanged?.Invoke(type, _currencies[type]);
+        
+        _hasChanges = true;
+    }
+
+    public void ForceSave()
+    {
+        if (_hasChanges)
+        {
+            SaveData();
+            Debug.Log("[CurrencyManager] Force save executed");
+        }
     }
 }

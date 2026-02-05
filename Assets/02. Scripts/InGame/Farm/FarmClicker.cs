@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Farm))]
@@ -8,24 +8,11 @@ public class FarmClicker : MonoBehaviour, IPointerDownHandler
     private Farm _farm;
     private IClickFeedback[] _feedbacks;
 
-    private float _lastClickTime;
-    private bool _pendingSave;
-    private const float SAVE_DELAY = 0.5f;
-
     private void Awake()
     {
         _mainCamera = Camera.main;
         _farm = GetComponent<Farm>();
         _feedbacks = GetComponents<IClickFeedback>();
-    }
-
-    private void Update()
-    {
-        if (_pendingSave && Time.time - _lastClickTime >= SAVE_DELAY)
-        {
-            UserDataManager.Instance.SaveAll();
-            _pendingSave = false;
-        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -43,9 +30,6 @@ public class FarmClicker : MonoBehaviour, IPointerDownHandler
             }
 
             CurrencyManager.Instance.AddCurrency(_farm.Currency, reward);
-
-            _lastClickTime = Time.time;
-            _pendingSave = true;
         }
     }
 }
