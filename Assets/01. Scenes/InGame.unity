@@ -1623,6 +1623,7 @@ GameObject:
   m_Component:
   - component: {fileID: 248094633}
   - component: {fileID: 248094634}
+  - component: {fileID: 248094635}
   m_Layer: 0
   m_Name: SpotLights
   m_TagString: Untagged
@@ -1665,6 +1666,18 @@ MonoBehaviour:
   _minRotationY: -180
   _maxRotationY: 180
   _rotationDuration: 0.3
+--- !u!114 &248094635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248094632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20e2708e06abf9478ab067285991c4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FeverSpotLight
 --- !u!1001 &256395176
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10972,6 +10985,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1556459273}
   - component: {fileID: 1556459274}
+  - component: {fileID: 1556459275}
   m_Layer: 0
   m_Name: SpotLights
   m_TagString: Untagged
@@ -11014,6 +11028,18 @@ MonoBehaviour:
   _minRotationY: -180
   _maxRotationY: 180
   _rotationDuration: 0.3
+--- !u!114 &1556459275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556459272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20e2708e06abf9478ab067285991c4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FeverSpotLight
 --- !u!1 &1565433184
 GameObject:
   m_ObjectHideFlags: 0
@@ -13806,6 +13832,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2036608488}
   - component: {fileID: 2036608489}
+  - component: {fileID: 2036608490}
   m_Layer: 0
   m_Name: SpotLights
   m_TagString: Untagged
@@ -13848,6 +13875,18 @@ MonoBehaviour:
   _minRotationY: -180
   _maxRotationY: 180
   _rotationDuration: 0.3
+--- !u!114 &2036608490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036608487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20e2708e06abf9478ab067285991c4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FeverSpotLight
 --- !u!1001 &2053532822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14326,6 +14365,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2113273281}
   - component: {fileID: 2113273280}
+  - component: {fileID: 2113273282}
   m_Layer: 0
   m_Name: FeverManager
   m_TagString: Untagged
@@ -14350,10 +14390,6 @@ MonoBehaviour:
   _bonusMultiplier: 2
   _decayDelay: 3
   _decayAmount: 5
-  _spotLightParents:
-  - {fileID: 248094632}
-  - {fileID: 1556459272}
-  - {fileID: 2036608487}
 --- !u!4 &2113273281
 Transform:
   m_ObjectHideFlags: 0
@@ -14369,6 +14405,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2113273282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113273279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e3be57c841eb44c9340f67ebd00de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FeverBGMHandler
+  _feverBGM: Fever
+  _normalBGM: BGM
 --- !u!224 &2119798095 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2952437737331813117, guid: f85372be2878d0a49b6c39afaae99fd6, type: 3}

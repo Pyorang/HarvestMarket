@@ -26,12 +26,6 @@ public class FeverManager : MonoBehaviour
     [SerializeField] private float _decayDelay = 3f;
     [SerializeField] private float _decayAmount = 5f;
 
-    [Header("스포트라이트")]
-    [SerializeField] private GameObject[] _spotLightParents;
-
-    private const string FEVER_BGM = "Fever";
-    private const string NORMAL_BGM = "BGM";
-
     private float _currentGauge;
     private bool _isFeverActive;
     private float _feverTimer;
@@ -95,11 +89,7 @@ public class FeverManager : MonoBehaviour
         _isFeverActive = true;
         _feverTimer = _feverDuration;
         _currentGauge = _maxGauge;
-        
-        AudioManager.Instance.Play(AudioType.BGM, FEVER_BGM);
-        SkyBoxController.Instance.TransitionToFever();
-        SetSpotLightsActive(true);
-        
+
         OnFeverStateChanged?.Invoke(true);
     }
 
@@ -108,11 +98,7 @@ public class FeverManager : MonoBehaviour
         _isFeverActive = false;
         _currentGauge = 0f;
         _lastClickTime = Time.time;
-        
-        AudioManager.Instance.Play(AudioType.BGM, NORMAL_BGM);
-        SkyBoxController.Instance.TransitionToNormal();
-        SetSpotLightsActive(false);
-        
+
         OnGaugeChanged?.Invoke(_currentGauge, _maxGauge);
         OnFeverStateChanged?.Invoke(false);
     }
@@ -142,17 +128,6 @@ public class FeverManager : MonoBehaviour
             _currentGauge = Mathf.Max(0f, _currentGauge - _decayAmount);
             _decayTimer = 0f;
             OnGaugeChanged?.Invoke(_currentGauge, _maxGauge);
-        }
-    }
-
-    private void SetSpotLightsActive(bool active)
-    {
-        foreach (var spotLight in _spotLightParents)
-        {
-            if (spotLight != null)
-            {
-                spotLight.SetActive(active);
-            }
         }
     }
 }

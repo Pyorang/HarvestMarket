@@ -57,6 +57,19 @@ public class SkyBoxController : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        FeverManager.OnFeverStateChanged += OnFeverStateChanged;
+    }
+
+    private void OnFeverStateChanged(bool isFever)
+    {
+        if (isFever)
+            TransitionToFever();
+        else
+            TransitionToNormal();
+    }
+
     private void Start()
     {
         SetNormalImmediate();
@@ -134,6 +147,7 @@ public class SkyBoxController : MonoBehaviour
 
     private void OnDisable()
     {
+        FeverManager.OnFeverStateChanged -= OnFeverStateChanged;
         _colorSequence?.Kill();
         _lightTween?.Kill();
     }
