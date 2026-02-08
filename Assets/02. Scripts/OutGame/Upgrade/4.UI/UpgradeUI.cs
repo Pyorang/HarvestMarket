@@ -99,9 +99,9 @@ public class UpgradeUI : MonoBehaviour
         _upgradeButton.interactable = _upgrade.CanUpgrade(currentGold);
     }
 
-    public async void OnClickUpgrade()
+    public void OnClickUpgrade()
     {
-        await UpgradeManager.Instance.TryUpgradeAsync(_upgradeType);
+        UpgradeManager.Instance.TryUpgradeAsync(_upgradeType);
     }
 
     public void Lock()

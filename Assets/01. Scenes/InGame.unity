@@ -1630,7 +1630,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &248094633
 Transform:
   m_ObjectHideFlags: 0
@@ -4875,6 +4875,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 559307873}
     m_Modifications:
+    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0249
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0065
+      objectReference: {fileID: 0}
     - target: {fileID: -1247356407196137952, guid: b37980a4e2ef8f749875ceab98b4ba98, type: 3}
       propertyPath: _turnCooldown
       value: 0.2
@@ -4934,14 +4942,6 @@ PrefabInstance:
     - target: {fileID: 3773990497134389268, guid: b37980a4e2ef8f749875ceab98b4ba98, type: 3}
       propertyPath: m_Name
       value: Cow (5)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.0249
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357411291783157233, guid: a1e28ebf14f44a044bef5690412b88ce, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.0065
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11031,7 +11031,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1556459273
 Transform:
   m_ObjectHideFlags: 0
@@ -13878,7 +13878,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2036608488
 Transform:
   m_ObjectHideFlags: 0

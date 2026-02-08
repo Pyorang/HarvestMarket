@@ -18,7 +18,7 @@ public class UserDataManager : MonoBehaviour
 
     public async UniTaskVoid Initialize(string email)
     {
-        _currencyRepository = new FirebaseCurrencyRepository();
+        _currencyRepository = new HybridCurrencyRepository(this, email);
 
         try
         {
@@ -65,5 +65,16 @@ public class UserDataManager : MonoBehaviour
     {
         _currencyRepository.Delete();
         SetDefaultAll();
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+            (_currencyRepository as HybridCurrencyRepository)?.FlushToRemote();
+    }
+
+    private void OnApplicationQuit()
+    {
+        (_currencyRepository as HybridCurrencyRepository)?.FlushToRemote();
     }
 }

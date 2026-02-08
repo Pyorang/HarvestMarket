@@ -8,6 +8,9 @@ public class CurrencyData
     [FirestoreProperty]
     public Dictionary<string, float> Currencies { get; set; } = new();
 
+    [FirestoreProperty]
+    public long LastSavedAt { get; set; } = 0;
+
     public CurrencyData() { }
 
     public void SetDefault()

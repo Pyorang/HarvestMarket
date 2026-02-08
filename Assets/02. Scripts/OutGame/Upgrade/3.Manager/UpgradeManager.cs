@@ -32,13 +32,24 @@ public class UpgradeManager : MonoBehaviour
 
     private void InitializeRepository()
     {
-        _upgradeRepository = new FirebaseUpgradeRepository();
+        _upgradeRepository = new HybridUpgradeRepository(this);
     }
 
     private void OnDestroy()
     {
         if (Instance == this)
             Instance = null;
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+            (_upgradeRepository as HybridUpgradeRepository)?.FlushToRemote();
+    }
+
+    private void OnApplicationQuit()
+    {
+        (_upgradeRepository as HybridUpgradeRepository)?.FlushToRemote();
     }
 
     private async void Start()
@@ -110,8 +121,6 @@ public class UpgradeManager : MonoBehaviour
 
     public async UniTask<bool> TryUpgradeAsync(UpgradeType type)
     {
-        await UniTask.Yield();
-
         var upgrade = GetUpgrade(type);
         if (upgrade == null) return false;
 

@@ -8,6 +8,9 @@ public class PlayerUpgradeData
     [FirestoreProperty]
     public Dictionary<string, int> UpgradeLevels { get; set; } = new();
 
+    [FirestoreProperty]
+    public long LastSavedAt { get; set; } = 0;
+
     public void SetDefault()
     {
         UpgradeLevels.Clear();
