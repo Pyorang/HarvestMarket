@@ -3,13 +3,13 @@ on:
   push:
     branches: [ web-build ]
 
-# GitHub Pages ¹èÆ÷¸¦ À§ÇÑ ±ÇÇÑ ¼³Á¤
+# GitHub Pages ë°°í¬ë¥¼ ìœ„í•œ ê¶Œí•œ ì„¤ì •
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# µ¿½Ã ¹èÆ÷ ¹æÁö
+# ë™ì‹œ ë°°í¬ ë°©ì§€
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 0. µğ½ºÅ© °ø°£ È®º¸
+      # 0. ë””ìŠ¤í¬ ê³µê°„ í™•ë³´
       - name: Free Disk Space
         uses: jlumbroso/free-disk-space@main
         with:
@@ -30,7 +30,7 @@ jobs:
           docker-images: true
           swap-storage: true
           
-      # 1. ÄÚµå °¡Á®¿À±â
+      # 1. ì½”ë“œ ê°€ì ¸ì˜¤ê¸°
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -38,7 +38,7 @@ jobs:
           fetch-depth: 0
           clean: true
       
-      # 2. Ä³½Ã (ºôµå ¼Óµµ Çâ»ó)
+      # 2. ìºì‹œ (ë¹Œë“œ ì†ë„ í–¥ìƒ)
       - name: Cache Library
         uses: actions/cache@v4
         with:
@@ -48,7 +48,7 @@ jobs:
             Library-WebGL-
             Library-
       
-      # 3. Addressables ºôµå (WebGL ºôµå Àü¿¡ ÇÊ¼ö!)
+      # 3. Addressables ë¹Œë“œ (WebGL ë¹Œë“œ ì „ì— í•„ìˆ˜!)
       - name: Build Addressables Content
         uses: game-ci/unity-builder@v4
         env:
@@ -59,8 +59,10 @@ jobs:
           targetPlatform: WebGL
           buildMethod: UnityEditor.AddressableAssets.Settings.AddressableAssetSettings.BuildPlayerContent
           allowDirtyBuild: true
+          # ì¶”ê°€: Build Profile ì§€ì • (Unity 2022+ í•„ìš”)
+          # buildProfile: WebGL-Release
       
-      # 4. Unity ºôµå (WebGL)
+      # 4. Unity ë¹Œë“œ (WebGL)
       - name: Build WebGL
         uses: game-ci/unity-builder@v4
         env:
@@ -70,22 +72,24 @@ jobs:
         with:
           targetPlatform: WebGL
           allowDirtyBuild: true
+          # ì¶”ê°€: Build Profile ì§€ì • (Unity 2022+ í•„ìš”)
+          buildProfile: Web - Mobile - Development - Mobile - Development
       
-      # 5. GitHub Pages ¹èÆ÷ ÁØºñ
+      # 5. GitHub Pages ë°°í¬ ì¤€ë¹„
       - name: Setup Pages
         uses: actions/configure-pages@v5
       
-      # 6. Pages¿ë Artifact ¾÷·Îµå
+      # 6. Pagesìš© Artifact ì—…ë¡œë“œ
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: build/WebGL/WebGL
       
-      # 7. GitHub Pages ¹èÆ÷
+      # 7. GitHub Pages ë°°í¬
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
       
-      # 8. ½½·¢ ¾Ë¸² (¼º°ø) - Ãß°¡
+      # 8. ìŠ¬ë™ ì•Œë¦¼ (ì„±ê³µ)
       - name: Slack Notification (Success)
         if: success()
         uses: slackapi/slack-github-action@v2.1.1
@@ -94,19 +98,19 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "text": "? WebGL ºôµå & ¹èÆ÷ ¼º°ø",
+              "text": "âœ… WebGL ë¹Œë“œ & ë°°í¬ ì„±ê³µ",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "? *${{ github.repository }}* ºôµå & ¹èÆ÷ ¿Ï·á!\n?? Ä¿¹Ô: ${{ github.event.head_commit.message }}\n?? ÀÛ¼ºÀÚ: ${{ github.actor }}\n?? <https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/|ÇÃ·¹ÀÌÇÏ±â>"
+                    "text": "âœ… *${{ github.repository }}* ë¹Œë“œ & ë°°í¬ ì™„ë£Œ!\nğŸ“ ì»¤ë°‹: ${{ github.event.head_commit.message }}\nğŸ‘¤ ì‘ì„±ì: ${{ github.actor }}\nğŸŒ <https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/|í”Œë ˆì´í•˜ê¸°>"
                   }
                 }
               ]
             }
       
-      # 9. ½½·¢ ¾Ë¸² (½ÇÆĞ) - Ãß°¡
+      # 9. ìŠ¬ë™ ì•Œë¦¼ (ì‹¤íŒ¨)
       - name: Slack Notification (Failure)
         if: failure()
         uses: slackapi/slack-github-action@v2.1.1
@@ -115,13 +119,13 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "text": "? WebGL ºôµå ½ÇÆĞ",
+              "text": "âŒ WebGL ë¹Œë“œ ì‹¤íŒ¨",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "?? *${{ github.repository }}* ºôµå ½ÇÆĞ!\n?? Ä¿¹Ô: ${{ github.event.head_commit.message }}\n?? ÀÛ¼ºÀÚ: ${{ github.actor }}\n?? <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|·Î±× È®ÀÎ>"
+                    "text": "ğŸ”¥ *${{ github.repository }}* ë¹Œë“œ ì‹¤íŒ¨!\nğŸ“ ì»¤ë°‹: ${{ github.event.head_commit.message }}\nğŸ‘¤ ì‘ì„±ì: ${{ github.actor }}\nğŸ”— <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|ë¡œê·¸ í™•ì¸>"
                   }
                 }
               ]
