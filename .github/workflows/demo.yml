@@ -24,6 +24,8 @@ jobs:
       # 1. 코드 가져오기
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          lfs: true
       
       # 2. 캐시 (빌드 속도 향상)
       - name: Cache Library
@@ -35,7 +37,18 @@ jobs:
             Library-Windows-
             Library-
       
-      # 3. Unity 빌드 (데스크탑)
+      # 3. Addressables 빌드 (Windows 빌드 전에 필수!)
+      - name: Build Addressables Content
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: StandaloneWindows64
+          buildMethod: UnityEditor.AddressableAssets.Settings.AddressableAssetSettings.BuildPlayerContent
+      
+      # 4. Unity 빌드 (데스크탑)
       - name: Build Windows
         uses: game-ci/unity-builder@v4
         env:
@@ -45,7 +58,7 @@ jobs:
         with:
           targetPlatform: StandaloneWindows64
       
-      # 4. 빌드 결과물 업로드
+      # 5. 빌드 결과물 업로드
       - name: Upload Build
         uses: actions/upload-artifact@v4
         with:
