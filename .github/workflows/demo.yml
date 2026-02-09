@@ -21,8 +21,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # (기존 0~11단계 로직은 동일하게 유지됩니다)
-      
       # 0. 디스크 공간 확보
       - name: Free Disk Space
         uses: jlumbroso/free-disk-space@main
@@ -65,6 +63,7 @@ jobs:
         with:
           targetPlatform: WebGL
           buildMethod: UnityEditor.AddressableAssets.Settings.AddressableAssetSettings.BuildPlayerContent
+          versioning: None # [추가]
           allowDirtyBuild: true
       
       # 4. Unity 빌드 (WebGL)
@@ -78,6 +77,8 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: WebGL
+          versioning: None # [추가]
+          allowDirtyBuild: true
 
       # 5. GitHub Pages 배포 준비
       - name: Setup Pages
