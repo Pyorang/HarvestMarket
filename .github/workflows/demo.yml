@@ -50,8 +50,8 @@ jobs:
       
       # 3. Addressables 빌드 (WebGL 빌드 전에 필수!)
       - name: Build Addressables Content
-        id: addressables  # 추가: 오류 추적용 ID
-        continue-on-error: true  # 추가: 실패해도 계속 진행
+        id: addressables
+        continue-on-error: true
         uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -64,8 +64,8 @@ jobs:
       
       # 4. Unity 빌드 (WebGL)
       - name: Build WebGL
-        id: build  # 추가: 오류 추적용 ID
-        continue-on-error: true  # 추가: 실패해도 계속 진행
+        id: build
+        continue-on-error: true
         uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -74,7 +74,6 @@ jobs:
         with:
           targetPlatform: WebGL
           allowDirtyBuild: true
-          buildProfile: Web - Mobile - Development - Mobile - Development
       
       # 5. GitHub Pages 배포 준비
       - name: Setup Pages
@@ -139,7 +138,7 @@ jobs:
             tail -n 100 "$HOME/.config/unity3d/Editor.log" >> error_log.txt
           fi
       
-      # 12. AI 오류 분석 & 슬랙 전송 (실패 시)
+      # 12. AI 오류 분석 & 슬랙 전송 (실패 시) - 수정됨
       - name: AI Error Analysis & Slack Notification
         if: steps.build.outcome == 'failure' || steps.addressables.outcome == 'failure'
         env:
@@ -150,7 +149,6 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          # Python 스크립트를 인라인으로 실행
           python3 << 'EOF'
           import os
           import sys
@@ -162,22 +160,29 @@ jobs:
               if not api_key:
                   return "❌ GEMINI_API_KEY가 설정되지 않았습니다."
               
-              url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={api_key}"
+              # 수정: Gemini 1.5 Flash 모델 사용
+              url = f"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={api_key}"
               
               prompt = f"""
           Unity WebGL 빌드가 실패했습니다. 아래 오류 로그를 분석하고 한글로 답변해주세요:
 
           [오류 로그]
-          {error_log[:2000]}
+          {error_log[:3000]}
 
-          아래 형식으로 간단히 답변해주세요:
-          1. 🔍 오류 원인
-          2. 💡 해결 방법
-          3. 📌 참고사항
+          아래 형식으로 간단명료하게 답변해주세요:
+          1. 🔍 오류 원인 (1-2줄)
+          2. 💡 해결 방법 (구체적 단계)
+          3. 📌 참고사항 (있다면)
           """
               
               headers = {'Content-Type': 'application/json'}
-              data = {"contents": [{"parts": [{"text": prompt}]}]}
+              data = {
+                  "contents": [{
+                      "parts": [{
+                          "text": prompt
+                      }]
+                  }]
+              }
               
               try:
                   response = requests.post(url, headers=headers, json=data, timeout=30)
@@ -200,7 +205,7 @@ jobs:
           
           # 슬랙 전송
           webhook_url = os.environ.get('SLACK_WEBHOOK')
-          error_summary = error_log[:500] + "..." if len(error_log) > 500 else error_log
+          error_summary = error_log[:800] + "..." if len(error_log) > 800 else error_log
           
           payload = {
               "text": "❌ WebGL 빌드 실패 (AI 분석 포함)",
