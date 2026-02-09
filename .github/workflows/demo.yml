@@ -79,7 +79,6 @@ jobs:
         with:
           targetPlatform: WebGL
           allowDirtyBuild: true
-          buildProfile: Web - Mobile - Development - Mobile - Development
 
       # 5. GitHub Pages 배포 준비
       - name: Setup Pages
