@@ -49,6 +49,7 @@ jobs:
         with:
           targetPlatform: StandaloneWindows64
           buildMethod: UnityEditor.AddressableAssets.Settings.AddressableAssetSettings.BuildPlayerContent
+          allowDirtyBuild: true
       
       # 4. Unity 빌드 (데스크탑)
       - name: Build Windows
@@ -59,6 +60,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneWindows64
+          allowDirtyBuild: true
       
       # 5. 빌드 결과물 업로드
       - name: Upload Build
