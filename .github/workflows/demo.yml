@@ -9,15 +9,20 @@ permissions:
   pages: write
   id-token: write
 
-# 동시 배포 방지
+# ---------------------------------------------------------
+# [수정] 동시 배포 방지: 새 빌드 시작 시 이전 빌드 자동 취소
+# ---------------------------------------------------------
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true  # false에서 true로 변경하여 400 에러 방지
+# ---------------------------------------------------------
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # (기존 0~11단계 로직은 동일하게 유지됩니다)
+      
       # 0. 디스크 공간 확보
       - name: Free Disk Space
         uses: jlumbroso/free-disk-space@main
@@ -48,7 +53,7 @@ jobs:
             Library-WebGL-
             Library-
       
-      # 3. Addressables 빌드 (WebGL 빌드 전에 필수!)
+      # 3. Addressables 빌드
       - name: Build Addressables Content
         id: addressables
         continue-on-error: true
@@ -74,7 +79,7 @@ jobs:
         with:
           targetPlatform: WebGL
           allowDirtyBuild: true
-      
+
       # 5. GitHub Pages 배포 준비
       - name: Setup Pages
         if: steps.build.outcome == 'success'
@@ -112,19 +117,19 @@ jobs:
                 }
               ]
             }
-      
+
       # 9. Python 환경 설정 (실패 시)
       - name: Setup Python
         if: steps.build.outcome == 'failure' || steps.addressables.outcome == 'failure'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       # 10. 필요한 패키지 설치 (실패 시)
       - name: Install Dependencies
         if: steps.build.outcome == 'failure' || steps.addressables.outcome == 'failure'
         run: pip install requests
-      
+
       # 11. 오류 로그 수집 (실패 시)
       - name: Collect Error Logs
         if: steps.build.outcome == 'failure' || steps.addressables.outcome == 'failure'
@@ -137,8 +142,8 @@ jobs:
           if [ -f "$HOME/.config/unity3d/Editor.log" ]; then
             tail -n 100 "$HOME/.config/unity3d/Editor.log" >> error_log.txt
           fi
-      
-      # 12. AI 오류 분석 & 슬랙 전송 (실패 시) - 수정됨
+
+      # 12. AI 오류 분석 & 슬랙 전송 (실패 시)
       - name: AI Error Analysis & Slack Notification
         if: steps.build.outcome == 'failure' || steps.addressables.outcome == 'failure'
         env:
@@ -160,7 +165,6 @@ jobs:
               if not api_key:
                   return "❌ GEMINI_API_KEY가 설정되지 않았습니다."
               
-              # 수정: Gemini 1.5 Flash 모델 사용
               url = f"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={api_key}"
               
               prompt = f"""
@@ -192,20 +196,16 @@ jobs:
               except Exception as e:
                   return f"❌ AI 분석 실패: {str(e)}"
 
-          # 오류 로그 읽기
           try:
               with open('error_log.txt', 'r', encoding='utf-8') as f:
                   error_log = f.read()
           except:
               error_log = "오류 로그를 읽을 수 없습니다."
 
-          # AI 분석
           print("🤖 AI 오류 분석 중...")
           analysis = analyze_error_with_gemini(error_log)
           
-          # 슬랙 전송
           webhook_url = os.environ.get('SLACK_WEBHOOK')
-          error_summary = error_log[:800] + "..." if len(error_log) > 800 else error_log
           
           payload = {
               "text": "❌ WebGL 빌드 실패 (AI 분석 포함)",
