@@ -6,7 +6,9 @@ using UnityEngine;
 public class HybridUpgradeRepository : IUpgradeRepository
 {
     private readonly PlayerPrefsUpgradeRepository _local;
+#if !UNITY_WEBGL || UNITY_EDITOR
     private readonly FirebaseUpgradeRepository _remote;
+#endif
     private readonly MonoBehaviour _coroutineRunner;
 
     private Coroutine _debounceCoroutine;
@@ -20,7 +22,12 @@ public class HybridUpgradeRepository : IUpgradeRepository
     {
         _coroutineRunner = coroutineRunner;
         _local = new PlayerPrefsUpgradeRepository(userKey);
+#if !UNITY_WEBGL || UNITY_EDITOR
         _remote = new FirebaseUpgradeRepository();
+        Debug.Log("[HybridUpgradeRepository] Firebase 활성화");
+#else
+        Debug.Log("[HybridUpgradeRepository] WebGL 모드 - 로컬 저장소만 사용");
+#endif
     }
 
     public UniTaskVoid Save(PlayerUpgradeData data)
@@ -34,12 +41,17 @@ public class HybridUpgradeRepository : IUpgradeRepository
         if (_localSaveCount >= LOCAL_SAVE_THRESHOLD)
         {
             _localSaveCount = 0;
+#if !UNITY_WEBGL || UNITY_EDITOR
             DebouncedFirebaseSave();
+#else
+            Debug.Log("[HybridUpgradeRepository] WebGL 모드: 로컬 저장만 수행");
+#endif
         }
 
         return default;
     }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
     private void DebouncedFirebaseSave()
     {
         if (_debounceCoroutine != null)
@@ -60,10 +72,13 @@ public class HybridUpgradeRepository : IUpgradeRepository
 
         _debounceCoroutine = null;
     }
+#endif
 
     public async UniTask<PlayerUpgradeData> Load()
     {
         var localData = await _local.Load();
+
+#if !UNITY_WEBGL || UNITY_EDITOR
         PlayerUpgradeData remoteData;
 
         try
@@ -84,13 +99,18 @@ public class HybridUpgradeRepository : IUpgradeRepository
         }
         else
         {
-            _local.Save(remoteData);    
+            _local.Save(remoteData);
             return remoteData;
         }
+#else
+        Debug.Log("[HybridUpgradeRepository] WebGL 모드: 로컬 데이터만 반환");
+        return localData;
+#endif
     }
 
     public void FlushToRemote()
     {
+#if !UNITY_WEBGL || UNITY_EDITOR
         if (_pendingData != null && _localSaveCount > 0)
         {
             if (_debounceCoroutine != null)
@@ -104,5 +124,8 @@ public class HybridUpgradeRepository : IUpgradeRepository
             _pendingData = null;
             Debug.Log("[HybridUpgradeRepo] FlushToRemote 완료");
         }
+#else
+        Debug.Log("[HybridUpgradeRepository] WebGL 모드: FlushToRemote 스킵");
+#endif
     }
 }

@@ -1,14 +1,22 @@
+#if !UNITY_WEBGL || UNITY_EDITOR
+using Firebase.Firestore;
+#endif
 using System;
 using System.Collections.Generic;
-using Firebase.Firestore;
 
+#if !UNITY_WEBGL || UNITY_EDITOR
 [FirestoreData]
+#endif
 public class PlayerUpgradeData
 {
+#if !UNITY_WEBGL || UNITY_EDITOR
     [FirestoreProperty]
+#endif
     public Dictionary<string, int> UpgradeLevels { get; set; } = new();
 
+#if !UNITY_WEBGL || UNITY_EDITOR
     [FirestoreProperty]
+#endif
     public long LastSavedAt { get; set; } = 0;
 
     public void SetDefault()

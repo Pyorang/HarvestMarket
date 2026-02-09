@@ -1,13 +1,16 @@
-using System;
-using Cysharp.Threading.Tasks;
+#if !UNITY_WEBGL || UNITY_EDITOR
 using Firebase.Auth;
 using Firebase.Firestore;
+#endif
+using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class FirebaseCurrencyRepository : ICurrencyRepository
 {
     private const string CURRENCY_COLLECTION_NAME = "Currency";
     
+#if !UNITY_WEBGL || UNITY_EDITOR
     private FirebaseAuth _auth = FirebaseAuth.DefaultInstance;
     private FirebaseFirestore _db = FirebaseFirestore.DefaultInstance;
     
@@ -90,4 +93,32 @@ public class FirebaseCurrencyRepository : ICurrencyRepository
         data.SetDefault();
         return data;
     }
+#else
+    // WebGL 빌드용 더미 구현
+    public async UniTaskVoid Save(CurrencyData currencyData)
+    {
+        Debug.LogWarning("[FirebaseCurrencyRepository] WebGL 빌드: Firebase 사용 불가");
+        await UniTask.Yield();
+    }
+    
+    public async UniTask<CurrencyData> Load()
+    {
+        Debug.LogWarning("[FirebaseCurrencyRepository] WebGL 빌드: Firebase 사용 불가");
+        await UniTask.Yield();
+        return GetDefaultCurrencyData();
+    }
+    
+    public async UniTaskVoid Delete()
+    {
+        Debug.LogWarning("[FirebaseCurrencyRepository] WebGL 빌드: Firebase 사용 불가");
+        await UniTask.Yield();
+    }
+
+    private CurrencyData GetDefaultCurrencyData()
+    {
+        var data = new CurrencyData();
+        data.SetDefault();
+        return data;
+    }
+#endif
 }

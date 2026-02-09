@@ -1,7 +1,9 @@
-using UnityEngine;
+#if !UNITY_WEBGL || UNITY_EDITOR
 using Firebase;
 using Firebase.Auth;
 using Firebase.Firestore;
+#endif
+using UnityEngine;
 using Cysharp.Threading.Tasks;
 
 public class FirebaseInitializer : MonoBehaviour
@@ -21,9 +23,11 @@ public class FirebaseInitializer : MonoBehaviour
         }
     }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
     public FirebaseApp App { get; private set; }
     public FirebaseAuth Auth { get; private set; }
     public FirebaseFirestore DB { get; private set; }
+#endif
     public bool IsInitialized { get; private set; }
 
     private void Awake()
@@ -41,9 +45,15 @@ public class FirebaseInitializer : MonoBehaviour
 
     private void Start()
     {
+#if !UNITY_WEBGL || UNITY_EDITOR
         InitializeFirebaseAsync().Forget();
+#else
+        Debug.LogWarning("[FirebaseInitializer] WebGL 빌드: Firebase 초기화 건너뜀");
+        IsInitialized = false;
+#endif
     }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
     private async UniTask InitializeFirebaseAsync()
     {
         var result = await FirebaseApp.CheckAndFixDependenciesAsync().AsUniTask();
@@ -61,4 +71,5 @@ public class FirebaseInitializer : MonoBehaviour
             Debug.LogError($"[FirebaseInitializer] Firebase 초기화 실패: {result}");
         }
     }
+#endif
 }

@@ -6,7 +6,9 @@ using UnityEngine;
 public class HybridCurrencyRepository : ICurrencyRepository
 {
     private readonly PlayerPrefsCurrencyRepository _local;
+#if !UNITY_WEBGL || UNITY_EDITOR
     private readonly FirebaseCurrencyRepository _remote;
+#endif
     private readonly MonoBehaviour _coroutineRunner;
 
     private Coroutine _debounceCoroutine;
@@ -20,7 +22,12 @@ public class HybridCurrencyRepository : ICurrencyRepository
     {
         _coroutineRunner = coroutineRunner;
         _local = new PlayerPrefsCurrencyRepository(userKey);
+#if !UNITY_WEBGL || UNITY_EDITOR
         _remote = new FirebaseCurrencyRepository();
+        Debug.Log("[HybridCurrencyRepository] Firebase 활성화");
+#else
+        Debug.Log("[HybridCurrencyRepository] WebGL 모드 - 로컬 저장소만 사용");
+#endif
     }
 
     public UniTaskVoid Save(CurrencyData data)
@@ -34,12 +41,17 @@ public class HybridCurrencyRepository : ICurrencyRepository
         if (_localSaveCount >= LOCAL_SAVE_THRESHOLD)
         {
             _localSaveCount = 0;
+#if !UNITY_WEBGL || UNITY_EDITOR
             DebouncedFirebaseSave();
+#else
+            Debug.Log("[HybridCurrencyRepository] WebGL 모드: 로컬 저장만 수행");
+#endif
         }
 
         return default;
     }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
     private void DebouncedFirebaseSave()
     {
         if (_debounceCoroutine != null)
@@ -60,10 +72,13 @@ public class HybridCurrencyRepository : ICurrencyRepository
 
         _debounceCoroutine = null;
     }
+#endif
 
     public async UniTask<CurrencyData> Load()
     {
         var localData = await _local.Load();
+        
+#if !UNITY_WEBGL || UNITY_EDITOR
         CurrencyData remoteData;
 
         try
@@ -87,17 +102,24 @@ public class HybridCurrencyRepository : ICurrencyRepository
             _local.Save(remoteData);
             return remoteData;
         }
+#else
+        Debug.Log("[HybridCurrencyRepository] WebGL 모드: 로컬 데이터만 반환");
+        return localData;
+#endif
     }
 
     public UniTaskVoid Delete()
     {
         _local.Delete();
+#if !UNITY_WEBGL || UNITY_EDITOR
         _remote.Delete().Forget();
+#endif
         return default;
     }
 
     public void FlushToRemote()
     {
+#if !UNITY_WEBGL || UNITY_EDITOR
         if (_pendingData != null && _localSaveCount > 0)
         {
             if (_debounceCoroutine != null)
@@ -111,5 +133,8 @@ public class HybridCurrencyRepository : ICurrencyRepository
             _pendingData = null;
             Debug.Log("[HybridCurrencyRepo] FlushToRemote 완료");
         }
+#else
+        Debug.Log("[HybridCurrencyRepository] WebGL 모드: FlushToRemote 스킵");
+#endif
     }
 }

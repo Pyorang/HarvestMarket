@@ -1,10 +1,13 @@
-using UnityEngine;
+#if !UNITY_WEBGL || UNITY_EDITOR
 using Firebase.Auth;
-using Cysharp.Threading.Tasks;
 using Firebase;
+#endif
+using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class FirebaseResourceRepository : IAccountRepository
 {
+#if !UNITY_WEBGL || UNITY_EDITOR
     public async UniTask<AccountResult> Register(string email, string password)
     {
         try
@@ -71,4 +74,25 @@ public class FirebaseResourceRepository : IAccountRepository
             _ => "인증 오류가 발생했습니다."
         };
     }
+#else
+    // WebGL 빌드용 더미 구현
+    public async UniTask<AccountResult> Register(string email, string password)
+    {
+        Debug.LogWarning("[FirebaseAccountRepository] WebGL 빌드: Firebase 사용 불가");
+        await UniTask.Yield();
+        return new AccountResult { Success = false, ErrorMessage = "WebGL에서는 Firebase 인증을 사용할 수 없습니다." };
+    }
+
+    public async UniTask<AccountResult> Login(string email, string password)
+    {
+        Debug.LogWarning("[FirebaseAccountRepository] WebGL 빌드: Firebase 사용 불가");
+        await UniTask.Yield();
+        return new AccountResult { Success = false, ErrorMessage = "WebGL에서는 Firebase 인증을 사용할 수 없습니다." };
+    }
+
+    public void Logout()
+    {
+        Debug.LogWarning("[FirebaseAccountRepository] WebGL 빌드: Firebase 사용 불가");
+    }
+#endif
 }

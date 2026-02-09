@@ -1,21 +1,30 @@
-using System;
+#if !UNITY_WEBGL || UNITY_EDITOR
 using Firebase.Firestore;
-
+#endif
+using System;
 
 [Serializable]
+#if !UNITY_WEBGL || UNITY_EDITOR
 [FirestoreData]
+#endif
 public class Dog
 {
-    [FirestoreDocumentId]             // 문서의 고유 식별자가 자동으로 맵핑된다.
+#if !UNITY_WEBGL || UNITY_EDITOR
+    [FirestoreDocumentId]
+#endif
     public string Id { get; set; }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
     [FirestoreProperty]
-    public string Name { get; set; }  // 필드가 아니라 get/set이 있는 프로퍼티여야 한다.
+#endif
+    public string Name { get; set; }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
     [FirestoreProperty]
+#endif
     public int Age { get; set; }
 
-    public Dog() { }                  // 기본 생성자가 무조건 있어야한다.
+    public Dog() { }
 
     public Dog(string name, int age)
     {

@@ -1,3 +1,4 @@
+#if !UNITY_WEBGL || UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
 using Firebase;
@@ -241,3 +242,14 @@ public class FirebaseTutorial : MonoBehaviour
     }
 
 }
+#else
+using UnityEngine;
+
+public class FirebaseTutorial : MonoBehaviour
+{
+    private void Start()
+    {
+        Debug.LogWarning("[FirebaseTutorial] WebGL 빌드: Firebase 튜토리얼 비활성화");
+    }
+}
+#endif

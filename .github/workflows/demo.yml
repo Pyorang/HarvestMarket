@@ -1,13 +1,10 @@
-name: Unity Build
-
+name: Unity WebGL Build
 on:
   push:
     branches: [ web-build ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       # 0. 디스크 공간 확보
       - name: Free Disk Space
@@ -34,12 +31,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: Library
-          key: Library-Windows-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          key: Library-WebGL-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
-            Library-Windows-
+            Library-WebGL-
             Library-
       
-      # 3. Addressables 빌드 (Windows 빌드 전에 필수!)
+      # 3. Addressables 빌드 (WebGL 빌드 전에 필수!)
       - name: Build Addressables Content
         uses: game-ci/unity-builder@v4
         env:
@@ -47,24 +44,28 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          targetPlatform: StandaloneWindows64
+          targetPlatform: WebGL
           buildMethod: UnityEditor.AddressableAssets.Settings.AddressableAssetSettings.BuildPlayerContent
           allowDirtyBuild: true
+          # 추가: Build Profile 지정 (있다면)
+          # buildProfile: WebGL-Release
       
-      # 4. Unity 빌드 (데스크탑)
-      - name: Build Windows
+      # 4. Unity 빌드 (WebGL)
+      - name: Build WebGL
         uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          targetPlatform: StandaloneWindows64
+          targetPlatform: WebGL
           allowDirtyBuild: true
+          # 추가: Build Profile 지정 (Unity 2022+)
+          # buildProfile: Web - Desktop - Release
       
       # 5. 빌드 결과물 업로드
       - name: Upload Build
         uses: actions/upload-artifact@v4
         with:
-          name: Windows-Build
-          path: build/StandaloneWindows64
+          name: WebGL-Build
+          path: build/WebGL

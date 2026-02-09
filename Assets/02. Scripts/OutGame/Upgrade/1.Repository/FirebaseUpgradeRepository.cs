@@ -1,13 +1,16 @@
-using System;
-using Cysharp.Threading.Tasks;
+#if !UNITY_WEBGL || UNITY_EDITOR
 using Firebase.Auth;
 using Firebase.Firestore;
+#endif
+using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class FirebaseUpgradeRepository : IUpgradeRepository
 {
     private const string UPGRADE_COLLECTION_NAME = "Upgrade";
     
+#if !UNITY_WEBGL || UNITY_EDITOR
     private FirebaseAuth _auth = FirebaseAuth.DefaultInstance;
     private FirebaseFirestore _db = FirebaseFirestore.DefaultInstance;
     
@@ -70,4 +73,26 @@ public class FirebaseUpgradeRepository : IUpgradeRepository
         data.SetDefault();
         return data;
     }
+#else
+    // WebGL 빌드용 더미 구현
+    public async UniTaskVoid Save(PlayerUpgradeData upgradeData)
+    {
+        Debug.LogWarning("[FirebaseUpgradeRepository] WebGL 빌드: Firebase 사용 불가");
+        await UniTask.Yield();
+    }
+    
+    public async UniTask<PlayerUpgradeData> Load()
+    {
+        Debug.LogWarning("[FirebaseUpgradeRepository] WebGL 빌드: Firebase 사용 불가");
+        await UniTask.Yield();
+        return GetDefaultUpgradeData();
+    }
+    
+    private PlayerUpgradeData GetDefaultUpgradeData()
+    {
+        var data = new PlayerUpgradeData();
+        data.SetDefault();
+        return data;
+    }
+#endif
 }
