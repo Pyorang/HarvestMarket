@@ -50,6 +50,8 @@ jobs:
       
       # 3. Addressables 빌드 (WebGL 빌드 전에 필수!)
       - name: Build Addressables Content
+        id: addressables  # 추가: 오류 추적용 ID
+        continue-on-error: true  # 추가: 실패해도 계속 진행
         uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -59,11 +61,11 @@ jobs:
           targetPlatform: WebGL
           buildMethod: UnityEditor.AddressableAssets.Settings.AddressableAssetSettings.BuildPlayerContent
           allowDirtyBuild: true
-          # 추가: Build Profile 지정 (Unity 2022+ 필요)
-          # buildProfile: WebGL-Release
       
       # 4. Unity 빌드 (WebGL)
       - name: Build WebGL
+        id: build  # 추가: 오류 추적용 ID
+        continue-on-error: true  # 추가: 실패해도 계속 진행
         uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -72,26 +74,28 @@ jobs:
         with:
           targetPlatform: WebGL
           allowDirtyBuild: true
-          # 추가: Build Profile 지정 (Unity 2022+ 필요)
           buildProfile: Web - Mobile - Development - Mobile - Development
       
       # 5. GitHub Pages 배포 준비
       - name: Setup Pages
+        if: steps.build.outcome == 'success'
         uses: actions/configure-pages@v5
       
       # 6. Pages용 Artifact 업로드
       - name: Upload Pages Artifact
+        if: steps.build.outcome == 'success'
         uses: actions/upload-pages-artifact@v3
         with:
           path: build/WebGL/WebGL
       
       # 7. GitHub Pages 배포
       - name: Deploy to GitHub Pages
+        if: steps.build.outcome == 'success'
         uses: actions/deploy-pages@v4
       
       # 8. 슬랙 알림 (성공)
       - name: Slack Notification (Success)
-        if: success()
+        if: steps.build.outcome == 'success' && steps.addressables.outcome == 'success'
         uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -110,23 +114,119 @@ jobs:
               ]
             }
       
-      # 9. 슬랙 알림 (실패)
-      - name: Slack Notification (Failure)
-        if: failure()
-        uses: slackapi/slack-github-action@v2.1.1
+      # 9. Python 환경 설정 (실패 시)
+      - name: Setup Python
+        if: steps.build.outcome == 'failure' || steps.addressables.outcome == 'failure'
+        uses: actions/setup-python@v5
         with:
-          webhook: ${{ secrets.SLACK_WEBHOOK }}
-          webhook-type: incoming-webhook
-          payload: |
-            {
-              "text": "❌ WebGL 빌드 실패",
+          python-version: '3.11'
+      
+      # 10. 필요한 패키지 설치 (실패 시)
+      - name: Install Dependencies
+        if: steps.build.outcome == 'failure' || steps.addressables.outcome == 'failure'
+        run: pip install requests
+      
+      # 11. 오류 로그 수집 (실패 시)
+      - name: Collect Error Logs
+        if: steps.build.outcome == 'failure' || steps.addressables.outcome == 'failure'
+        run: |
+          echo "=== Build Errors ===" > error_log.txt
+          if [ -f "build/*.log" ]; then
+            cat build/*.log >> error_log.txt
+          fi
+          echo "=== Unity Log ===" >> error_log.txt
+          if [ -f "$HOME/.config/unity3d/Editor.log" ]; then
+            tail -n 100 "$HOME/.config/unity3d/Editor.log" >> error_log.txt
+          fi
+      
+      # 12. AI 오류 분석 & 슬랙 전송 (실패 시)
+      - name: AI Error Analysis & Slack Notification
+        if: steps.build.outcome == 'failure' || steps.addressables.outcome == 'failure'
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          # Python 스크립트를 인라인으로 실행
+          python3 << 'EOF'
+          import os
+          import sys
+          import json
+          import requests
+
+          def analyze_error_with_gemini(error_log):
+              api_key = os.environ.get('GEMINI_API_KEY')
+              if not api_key:
+                  return "❌ GEMINI_API_KEY가 설정되지 않았습니다."
+              
+              url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={api_key}"
+              
+              prompt = f"""
+          Unity WebGL 빌드가 실패했습니다. 아래 오류 로그를 분석하고 한글로 답변해주세요:
+
+          [오류 로그]
+          {error_log[:2000]}
+
+          아래 형식으로 간단히 답변해주세요:
+          1. 🔍 오류 원인
+          2. 💡 해결 방법
+          3. 📌 참고사항
+          """
+              
+              headers = {'Content-Type': 'application/json'}
+              data = {"contents": [{"parts": [{"text": prompt}]}]}
+              
+              try:
+                  response = requests.post(url, headers=headers, json=data, timeout=30)
+                  response.raise_for_status()
+                  result = response.json()
+                  return result['candidates'][0]['content']['parts'][0]['text']
+              except Exception as e:
+                  return f"❌ AI 분석 실패: {str(e)}"
+
+          # 오류 로그 읽기
+          try:
+              with open('error_log.txt', 'r', encoding='utf-8') as f:
+                  error_log = f.read()
+          except:
+              error_log = "오류 로그를 읽을 수 없습니다."
+
+          # AI 분석
+          print("🤖 AI 오류 분석 중...")
+          analysis = analyze_error_with_gemini(error_log)
+          
+          # 슬랙 전송
+          webhook_url = os.environ.get('SLACK_WEBHOOK')
+          error_summary = error_log[:500] + "..." if len(error_log) > 500 else error_log
+          
+          payload = {
+              "text": "❌ WebGL 빌드 실패 (AI 분석 포함)",
               "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "🔥 *${{ github.repository }}* 빌드 실패!\n📝 커밋: ${{ github.event.head_commit.message }}\n👤 작성자: ${{ github.actor }}\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|로그 확인>"
+                  {
+                      "type": "section",
+                      "text": {
+                          "type": "mrkdwn",
+                          "text": f"🔥 *{os.environ.get('GITHUB_REPOSITORY')}* 빌드 실패!\n📝 커밋: {os.environ.get('COMMIT_MESSAGE')}\n👤 작성자: {os.environ.get('GITHUB_ACTOR')}\n🔗 <{os.environ.get('RUN_URL')}|로그 확인>"
+                      }
+                  },
+                  {"type": "divider"},
+                  {
+                      "type": "section",
+                      "text": {
+                          "type": "mrkdwn",
+                          "text": f"*🤖 AI 오류 분석*\n{analysis}"
+                      }
                   }
-                }
               ]
-            }
+          }
+          
+          try:
+              response = requests.post(webhook_url, json=payload, timeout=10)
+              response.raise_for_status()
+              print("✅ 슬랙 전송 성공!")
+          except Exception as e:
+              print(f"❌ 슬랙 전송 실패: {str(e)}")
+          EOF
