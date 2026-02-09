@@ -26,6 +26,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+          fetch-depth: 0
+          clean: true
       
       # 2. 캐시 (빌드 속도 향상)
       - name: Cache Library
