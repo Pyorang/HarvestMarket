@@ -78,7 +78,6 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: WebGL
-          allowDirtyBuild: true
 
       # 5. GitHub Pages 배포 준비
       - name: Setup Pages
