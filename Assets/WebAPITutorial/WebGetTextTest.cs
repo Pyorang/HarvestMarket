@@ -1,8 +1,49 @@
+
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Networking;
+
 
 public class WebGetTextTest : MonoBehaviour
 {
-    // HTTP ÇÁ·ÎÅäÄİÀ» ÀÌ¿ëÇØ¤Ã À¥ ¼­¹ö¤Ã¿¡°Ô µ¥ÀÌÅÍ ÀÛ¾÷À» ¿äÃ»ÇÒ ¼ö ÀÖ´Ù.
-    // ÀÛ¾÷ ¿äÃ»Àº Å©~°Ô 4°¡Áö°¡ ÀÖ´Ù.
-    // GET :
+    // HTTP í”„ë¡œí†¨ì„ ì´ìš©í•´ì„œ ì›¹ ì„œë²„ì—ê²Œ ë°ì´í„° ì‘ì—…ì„ ìš”ì²­í•  ìˆ˜ ìˆë‹¤.
+    // ì‘ì—… ìš”ì²­ì€ í¬~ê²Œ 4ê°€ì§€ ì•½ì†ì´ ìˆë‹¤.
+    // 1. ë°ì´í„° ë‚´ë†”     : GET
+    // 2. ë°ì´í„° ì¤„ê²Œ     : POST
+    // 3. ë°ì´í„° ìˆ˜ì •í•´ì¤˜  : PUT
+    // 4. ë°ì´í„° ì‚­ì œí•´ì¤˜  : DELETE
+
+    private async void Start()
+    {
+        await GetTextAsync();
+    }
+
+    private async UniTask<string> GetWebText(string url)
+    {
+        var request = UnityWebRequest.Get(url);
+        await request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(request.error);
+            return string.Empty;
+        }
+
+        return request.downloadHandler.text;
+    }
+
+    private async UniTask GetTextAsync()
+    {
+        string url = "https://www.google.com/search?q=zutomayo&oq=&gs_lcrp=EgZjaHJvbWUqCQgAECMYJxjqAjIJCAAQIxgnGOoCMgkIARAjGCcY6gIyCQgCECMYJxjqAjIJCAMQIxgnGOoCMgkIBBAjGCcY6gIyCQgFECMYJxjqAjIJCAYQIxgnGOoCMgkIBxAjGCcY6gLSAQg1NzVqMGoxNagCCLACAfEFeKWoA1nX--Y&sourceid=chrome&ie=UTF-8";
+        var request = UnityWebRequest.Get(url);
+        await request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(request.error);
+            return;
+        }
+
+        Debug.Log(request.downloadHandler.text);
+    }
 }
