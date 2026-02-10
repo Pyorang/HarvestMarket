@@ -29,6 +29,8 @@ jobs:
       # 1. 코드 가져오기
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          lfs: true # LFS 파일도 확실히 가져오도록 추가
 
       # 2. 캐시 (빌드 속도 향상)
       - name: Cache Library
@@ -40,9 +42,7 @@ jobs:
             Library-WebGL-
             Library-
 
-      # ---------------------------------------------------------
-      # [추가됨] 3. Addressables 빌드: WebGL 빌드 본체 전에 실행
-      # ---------------------------------------------------------
+      # 3. Addressables 빌드 (수정됨)
       - name: Build Addressables Content
         uses: game-ci/unity-builder@v4
         env:
@@ -52,9 +52,12 @@ jobs:
         with:
           targetPlatform: WebGL
           buildMethod: UnityEditor.AddressableAssets.Settings.AddressableAssetSettings.BuildPlayerContent
-      # ---------------------------------------------------------
+          # ---------------------------------------------------------
+          versioning: None      # [추가] 버전 체크를 꺼서 Dirty Branch 에러 해결
+          allowDirtyBuild: true # [추가] 변경 사항이 있어도 빌드 허용
+          # ---------------------------------------------------------
 
-      # 4. Unity 빌드 (기존 3번 단계)
+      # 4. Unity 빌드 (수정됨)
       - name: Build WebGL
         uses: game-ci/unity-builder@v4
         env:
@@ -64,6 +67,10 @@ jobs:
         with:
           targetPlatform: WebGL
           buildProfile: "Web - Mobile - Development - Mobile - Development.asset"
+          # ---------------------------------------------------------
+          versioning: None      # [추가] 버전 체크를 꺼서 Dirty Branch 에러 해결
+          allowDirtyBuild: true # [추가] 변경 사항이 있어도 빌드 허용
+          # ---------------------------------------------------------
 
       # 5. 빌드 결과물 업로드 (Artifact)
       - name: Upload Build
