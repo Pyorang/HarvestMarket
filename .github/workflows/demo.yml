@@ -77,7 +77,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: WebGL
-          buildProfile: "Assets\Settings\Build Profiles\Web-GL.asset"
+          buildProfile: "Assets/Settings/Build Profiles/Web-GL.asset"
           versioning: None # [추가]
           allowDirtyBuild: true
 
