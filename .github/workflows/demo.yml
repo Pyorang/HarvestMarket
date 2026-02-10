@@ -40,7 +40,21 @@ jobs:
             Library-WebGL-
             Library-
 
-      # 3. Unity 빌드
+      # ---------------------------------------------------------
+      # [추가됨] 3. Addressables 빌드: WebGL 빌드 본체 전에 실행
+      # ---------------------------------------------------------
+      - name: Build Addressables Content
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: WebGL
+          buildMethod: UnityEditor.AddressableAssets.Settings.AddressableAssetSettings.BuildPlayerContent
+      # ---------------------------------------------------------
+
+      # 4. Unity 빌드 (기존 3번 단계)
       - name: Build WebGL
         uses: game-ci/unity-builder@v4
         env:
@@ -51,28 +65,28 @@ jobs:
           targetPlatform: WebGL
           buildProfile: "Web - Mobile - Development - Mobile - Development.asset"
 
-      # 4. 빌드 결과물 업로드 (Artifact)
+      # 5. 빌드 결과물 업로드 (Artifact)
       - name: Upload Build
         uses: actions/upload-artifact@v4
         with:
           name: WebGL-Build
           path: build/WebGL
 
-      # 5. GitHub Pages 배포 준비
+      # 6. GitHub Pages 배포 준비
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # 6. Pages용 Artifact 업로드
+      # 7. Pages용 Artifact 업로드
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: build/WebGL/WebGL
 
-      # 7. GitHub Pages 배포
+      # 8. GitHub Pages 배포
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
 
-      # 8. 슬랙 알림 (성공)
+      # 9. 슬랙 알림 (성공)
       - name: Slack Notification (Success)
         if: success()
         uses: slackapi/slack-github-action@v2.1.1
@@ -91,7 +105,7 @@ jobs:
                     👤 작성자: ${{ github.actor }}
                     🌐 <https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/|플레이하기>
 
-      # 9. 슬랙 알림 (실패)
+      # 10. 슬랙 알림 (실패)
       - name: Slack Notification (Failure)
         if: failure()
         uses: slackapi/slack-github-action@v2.1.1
