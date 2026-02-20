@@ -1,86 +1,94 @@
-using UnityEngine;
-
-public class ResolutionManager : MonoBehaviour
-{
-    public int referenceWidth = 1920;
-    public int referenceHeight = 1080;
-    private bool isFullscreen = true;
-    private Camera mainCamera;
-
-    private void Awake()
-    {
-        mainCamera = Camera.main;
-        ApplyResolution();
-        ApplyLetterbox();
-    }
-
+using UnityEngine;
+
+public class ResolutionManager : MonoBehaviour
+{
+    public int referenceWidth = 1920;
+    public int referenceHeight = 1080;
+    private bool isFullscreen = true;
+    private Camera mainCamera;
+
+    private void Awake()
+    {
+        mainCamera = Camera.main;
+        ApplyResolution();
+        ApplyLetterbox();
+    }
+
     private void Update()
     {
+        // ì¹´ë©”ë¼ ì°¸ì¡°ê°€ ì—†ê±°ë‚˜ íŒŒê´´ëìœ¼ë©´ ë‹¤ì‹œ ê°€ì ¸ì˜¤ê¸°
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+            if (mainCamera != null)
+                ApplyLetterbox();
+        }
+
         if (Screen.fullScreen != isFullscreen)
         {
             isFullscreen = Screen.fullScreen;
             ApplyResolution();
             ApplyLetterbox();
         }
-    }
-
-    public void ToggleFullscreen()
-    {
-        isFullscreen = !isFullscreen;
-        ApplyResolution();
-        ApplyLetterbox();
-    }
-
-    private void ApplyResolution()
-    {
-        if (isFullscreen)
-        {
-            Resolution nativeRes = Screen.currentResolution;
-            Screen.SetResolution(nativeRes.width, nativeRes.height, true);
-        }
-        else
-        {
-            Resolution nativeRes = Screen.currentResolution;
-            float targetRatio = (float)referenceWidth / referenceHeight;
-
-            int windowHeight = Mathf.RoundToInt(nativeRes.height * 0.8f);
-            int windowWidth = Mathf.RoundToInt(windowHeight * targetRatio);
-
-            if (windowWidth > nativeRes.width * 0.9f)
-            {
-                windowWidth = Mathf.RoundToInt(nativeRes.width * 0.8f);
-                windowHeight = Mathf.RoundToInt(windowWidth / targetRatio);
-            }
-
-            Screen.SetResolution(windowWidth, windowHeight, false);
-        }
-    }
-
-    private void ApplyLetterbox()
-    {
-        if (mainCamera == null) return;
-
-        float targetRatio = (float)referenceWidth / referenceHeight; // 16:9
-        float screenRatio = (float)Screen.width / Screen.height;
-
-        if (Mathf.Approximately(screenRatio, targetRatio))
-        {
-            // ºñÀ² µ¿ÀÏ - ÀüÃ¼ È­¸é »ç¿ë
-            mainCamera.rect = new Rect(0, 0, 1, 1);
-        }
-        else if (screenRatio > targetRatio)
-        {
-            // È­¸éÀÌ ´õ ³ĞÀ½ - ÁÂ¿ì °ËÀº ¶ì (Pillarbox)
-            float viewportWidth = targetRatio / screenRatio;
-            float x = (1f - viewportWidth) / 2f;
-            mainCamera.rect = new Rect(x, 0, viewportWidth, 1);
-        }
-        else
-        {
-            // È­¸éÀÌ ´õ Á¼À½ - »óÇÏ °ËÀº ¶ì (Letterbox)
-            float viewportHeight = screenRatio / targetRatio;
-            float y = (1f - viewportHeight) / 2f;
-            mainCamera.rect = new Rect(0, y, 1, viewportHeight);
-        }
-    }
+    }
+
+    public void ToggleFullscreen()
+    {
+        isFullscreen = !isFullscreen;
+        ApplyResolution();
+        ApplyLetterbox();
+    }
+
+    private void ApplyResolution()
+    {
+        if (isFullscreen)
+        {
+            Resolution nativeRes = Screen.currentResolution;
+            Screen.SetResolution(nativeRes.width, nativeRes.height, true);
+        }
+        else
+        {
+            Resolution nativeRes = Screen.currentResolution;
+            float targetRatio = (float)referenceWidth / referenceHeight;
+
+            int windowHeight = Mathf.RoundToInt(nativeRes.height * 0.8f);
+            int windowWidth = Mathf.RoundToInt(windowHeight * targetRatio);
+
+            if (windowWidth > nativeRes.width * 0.9f)
+            {
+                windowWidth = Mathf.RoundToInt(nativeRes.width * 0.8f);
+                windowHeight = Mathf.RoundToInt(windowWidth / targetRatio);
+            }
+
+            Screen.SetResolution(windowWidth, windowHeight, false);
+        }
+    }
+
+    private void ApplyLetterbox()
+    {
+        if (mainCamera == null) return;
+
+        float targetRatio = (float)referenceWidth / referenceHeight; // 16:9
+        float screenRatio = (float)Screen.width / Screen.height;
+
+        if (Mathf.Approximately(screenRatio, targetRatio))
+        {
+            // ë¹„ìœ¨ ë™ì¼ - ì „ì²´ í™”ë©´ ì‚¬ìš©
+            mainCamera.rect = new Rect(0, 0, 1, 1);
+        }
+        else if (screenRatio > targetRatio)
+        {
+            // í™”ë©´ì´ ë” ë„“ìŒ - ì¢Œìš° ê²€ì€ ë  (Pillarbox)
+            float viewportWidth = targetRatio / screenRatio;
+            float x = (1f - viewportWidth) / 2f;
+            mainCamera.rect = new Rect(x, 0, viewportWidth, 1);
+        }
+        else
+        {
+            // í™”ë©´ì´ ë” ì¢ìŒ - ìƒí•˜ ê²€ì€ ë  (Letterbox)
+            float viewportHeight = screenRatio / targetRatio;
+            float y = (1f - viewportHeight) / 2f;
+            mainCamera.rect = new Rect(0, y, 1, viewportHeight);
+        }
+    }
 }
