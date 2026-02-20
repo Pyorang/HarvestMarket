@@ -18,7 +18,14 @@ public class AccountManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+#if !UNITY_WEBGL || UNITY_EDITOR
             _repository = new FirebaseResourceRepository();
+            Debug.Log("[AccountManager] Firebase 인증 사용");
+#else
+            _repository = new LocalAccountRepository();
+            Debug.Log("[AccountManager] WebGL 모드 - 로컬 인증 사용");
+#endif
         }
         else
         {

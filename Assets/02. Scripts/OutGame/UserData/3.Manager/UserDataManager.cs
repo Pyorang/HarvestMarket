@@ -14,6 +14,7 @@ public class UserDataManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(this);
     }
 
     public async UniTaskVoid Initialize(string email)
